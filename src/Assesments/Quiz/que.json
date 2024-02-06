@@ -1,0 +1,52 @@
+[
+    {
+        "id": 1,
+        "que": "basic of web deplopmet",
+        "ans": "HTML"
+    },
+    {
+        "id": 2,
+        "que": "styling web pages",
+        "ans": "CSS"
+    },
+    {
+        "id": 3,
+        "que": "programming language for web",
+        "ans": "JavaScript"
+    },
+    {
+        "id": 4,
+        "que": "structuring web content",
+        "ans": "HTML"
+    },
+    {
+        "id": 5,
+        "que": "responsive design",
+        "ans": "CSS"
+    },
+    {
+        "id": 6,
+        "que": "interactivity on web",
+        "ans": "JavaScript"
+    },
+    {
+        "id": 7,
+        "que": "database for web applications",
+        "ans": "SQL"
+    },
+    {
+        "id": 8,
+        "que": "handling server-side logic",
+        "ans": "Node.js"
+    },
+    {
+        "id": 9,
+        "que": "web security",
+        "ans": "HTTPS"
+    },
+    {
+        "id": 10,
+        "que": "web deployment platforms",
+        "ans": "Heroku"
+    }
+]

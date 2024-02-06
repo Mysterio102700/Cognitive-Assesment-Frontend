@@ -1,0 +1,108 @@
+.word-search-container {
+  text-align: center;
+  margin: 20px;
+}
+
+.word-search-grid {
+  width: 600px; 
+  height: 600px; 
+  margin: 0 auto; 
+}
+
+.word-search-grid td {
+  width: 30px; 
+  height: 30px; 
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+
+.word-search-grid td.active {
+  background-color: #3498db;
+}
+
+.word-search-header {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.selected {
+  background-color: #ffcc00 !important; /* Change this to your desired background color */
+  color: #fff !important;
+  cursor: pointer;
+}
+
+/* WordSearch.css */
+
+
+
+/* Style for the table */
+.table {
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 1rem;
+  background-color: transparent;
+}
+
+/* Style for the active cells */
+.active {
+  background-color: #007bff;
+  color: #fff;
+}
+
+/* Style for the selected cells */
+.selected {
+  background-color: #ffc107;
+  color: #212529;
+}
+
+/* Style for found words in the grid */
+.found-word-cell {
+  background-color: #28a745;
+  color: #fff;
+  font-weight: bold;
+}
+
+/* Style for found words in the list */
+.found-word {
+  display: inline-block;
+  padding: 5px;
+  background-color: #28a745;
+  color: #fff;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+/* Style for the active cells */
+.active {
+  background-color: #007bff;
+  color: #fff;
+}
+
+
+/* Style for found words in the grid */
+.found-word-cell {
+  font-weight: bold;
+  border: 2px solid transparent;
+  cursor: pointer;
+}
+
+/* Style for each found word with a unique class */
+.found-word-0 {
+  background-color: #28a745;
+  color: #fff;
+}
+
+.found-word-1 {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.found-word-2 {
+  background-color: #ffc107;
+  color: #212529;
+}
+
+/* Add more .found-word-N classes as needed for additional found words */
+
+

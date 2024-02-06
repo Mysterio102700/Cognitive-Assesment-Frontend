@@ -1,0 +1,13 @@
+.quiz .container{
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background-color: #4F709C;
+}
+
+h2{
+  text-align: center;
+}

@@ -1,0 +1,18 @@
+.dash {
+    display: flex;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 5px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(2px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    align-content: center;
+    align-items: center;
+}
+
+@media screen and (max-width:1080px) {
+    .dash {
+        flex-direction: column;
+    }
+}
