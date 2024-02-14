@@ -8,13 +8,13 @@ const Subjects = () => {
 
   const getSubjects = async () => {
     const year = localStorage.getItem("year");
-    const semester = localStorage.getItem("semester");
+    const sem = localStorage.getItem("semester");
     const branch = localStorage.getItem("branch");
-    const sub = { year, semester, branch };
+    const sub = { year, sem, branch };
 
     try {
       const response = await subjectData(sub);
-      setSubjects(response.data.subjects[0].subjects);
+      setSubjects(response.data.subjects);
     } catch (error) {
       console.log(error);
     }
@@ -38,7 +38,7 @@ const Subjects = () => {
     <>
       <h1>Subjects</h1>
       <div className="container">
-        <div className="row">
+        <div className="row p-5">
           {subjects.map((button, index) => (
             <div key={index} className="col-md-4 col-sm-6 col-12 mb-2">
               <button

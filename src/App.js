@@ -4,10 +4,14 @@ import "./App.css"
 import Subjects from "./Components/Subjects/Subjects";
 import WordSearch from "./Assesments/WordSearch/WordSearch"
 import MissingWords from "./Assesments/MissingWords/MissingWords";
+import Quiz from "./Assesments/Quiz/Quiz";
+import Dashboard from "./Admin/AdminDashboard/Dashboard";
 
 const App = () => {
   return (
       <AppRoutes />
+      // <Dashboard/>
+      // <Quiz/>
       // <WordSearch/>
       // <MissingWords/>
   );

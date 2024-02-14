@@ -1,255 +1,59 @@
-// import React, { useState, useEffect,useRef  } from "react";
-// import "bootstrap/dist/css/bootstrap.min.css";
-// import "./WordSearch.css";
-
-// const WordSearch = () => {
-//   const initialGrid = Array(20)
-//     .fill(null)
-//     .map(() => Array(20).fill(""));
-//   const [grid, setGrid] = useState(initialGrid);
-
-//   const [selectedCells, setSelectedCells] = useState([]);
-//   const [foundWords, setFoundWords] = useState([]);
-//   const [timer, setTimer] = useState(0);
-//   const [remainingWords, setRemainingWords] = useState([
-//     "HTML",
-//     "CSS",
-//     "JavaScript",
-//     "SQL",
-//     "Node.js",
-//     "HTTPS",
-//     "Heroku",
-//   ]);
-
-//   const timerRef = useRef(0);
-
-//   useEffect(() => {
-//     const newGrid = [...grid];
-//     const placedWords = new Set(); // Track placed words to avoid repetition
-
-//     const placeWord = (word) => {
-//       if (placedWords.has(word)) {
-//         return; // Word is already placed
-//       }
-
-//       const directions = [
-//         [0, 1], // right
-//         [1, 0], // down
-//         [1, 1], // diagonal right-down
-//       ];
-
-//       const maxLength = Math.max(newGrid.length, newGrid[0].length);
-//       const maxAttempts = 10; // Number of attempts to place a word
-
-//       for (let attempt = 0; attempt < maxAttempts; attempt++) {
-//         const direction =
-//           directions[Math.floor(Math.random() * directions.length)];
-//         const [dx, dy] = direction;
-
-//         const row = Math.floor(
-//           Math.random() * (newGrid.length - dx * (word.length - 1))
-//         );
-//         const col = Math.floor(
-//           Math.random() * (newGrid[0].length - dy * (word.length - 1))
-//         );
-
-//         let validPlacement = true;
-
-//         for (let i = 0; i < word.length; i++) {
-//           const newRow = row + i * dx;
-//           const newCol = col + i * dy;
-
-//           if (
-//             newGrid[newRow][newCol] === "" ||
-//             newGrid[newRow][newCol] === word[i]
-//           ) {
-//             newGrid[newRow][newCol] = word[i];
-//           } else {
-//             validPlacement = false;
-//             break;
-//           }
-//         }
-
-//         if (validPlacement) {
-//           placedWords.add(word); // Mark word as placed
-//           return;
-//         }
-//       }
-//     };
-//     remainingWords.forEach((word) => placeWord(word));
-
-//     setGrid(newGrid);
-
-//     const intervalId = setInterval(() => {
-//       timerRef.current += 1;
-//     }, 1000);
-
-//     return () => {
-//       // Clear the interval when the component unmounts
-//       clearInterval(intervalId);
-//     };
-//   }, [grid, remainingWords]);
-
-//   const handleCellClick = (rowIndex, colIndex) => {
-//     const cell = grid[rowIndex][colIndex];
-
-//     if (cell !== "") {
-//       const isSelected = selectedCells.some((cellInfo) =>
-//         cellInfo.row === rowIndex && cellInfo.col === colIndex
-//       );
-
-//       if (!isSelected) {
-//         setSelectedCells([...selectedCells, { row: rowIndex, col: colIndex }]);
-//       } else {
-//         setSelectedCells(selectedCells.filter((cellInfo) =>
-//           cellInfo.row !== rowIndex || cellInfo.col !== colIndex
-//         ));
-//       }
-
-//       checkWords();
-//     }
-//   };
-
-//   const checkWords = () => {
-//     const currentWord = selectedCells
-//       .sort((a, b) => a.row - b.row || a.col - b.col)
-//       .map((cellInfo) => grid[cellInfo.row][cellInfo.col])
-//       .join("");
-
-//     if (remainingWords.includes(currentWord)) {
-//       setFoundWords([...foundWords, currentWord]);
-//       setRemainingWords(remainingWords.filter((word) => word !== currentWord));
-//       setSelectedCells([]);
-//     }
-//   };
-
-//   // Check if all words are found
-//   useEffect(() => {
-//     if (remainingWords.length === 0) {
-//       clearInterval(timerRef.current);
-//       alert(`Congratulations! You found all the words in ${timerRef.current} seconds.`);
-//     }
-//   }, [remainingWords]);
-
-//   return (
-//     <div className="container1">
-//       <h1 className="text-center mt-3">Word Search Puzzle</h1>
-//       <div className="row">
-//         <div className="col-md-8">
-//           <table className="table table-bordered text-center">
-//             <tbody>
-//               {grid.map((row, rowIndex) => (
-//                 <tr key={rowIndex}>
-//                   {row.map((cell, colIndex) => (
-//                     <td
-//                       key={colIndex}
-//                       onClick={() => handleCellClick(rowIndex, colIndex)}
-//                       className={`${
-//                         selectedCells.some(
-//                           (cellInfo) =>
-//                             cellInfo.row === rowIndex && cellInfo.col === colIndex
-//                         )
-//                           ? "selected"
-//                           : ""
-//                       } ${
-//                         foundWords.includes(cell) ? "found-word-cell" : ""
-//                       } ${cell === " " ? "active bg-primary" : ""}`}
-//                     >
-//                       {cell}
-//                     </td>
-//                   ))}
-//                 </tr>
-//               ))}
-//             </tbody>
-//           </table>
-//         </div>
-//         <div className="col-md-4">
-//           <h2>Words Found:</h2>
-//           <div className="found-words">
-//             {foundWords.map((word, index) => (
-//               <span key={index} className="found-word">
-//                 {word}
-//               </span>
-//             ))}
-//           </div>
-//           <h2>Timer: {timerRef.current} seconds</h2>
-//         </div>
-//       </div>
-//       <div className="row">
-//         <div className="col-md-4">
-//           <h2>Words Remaining:</h2>
-//           <ul>
-//             {remainingWords.map((word) => (
-//               <li key={word}>{word}</li>
-//             ))}
-//           </ul>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default WordSearch;
-
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./WordSearch.css";
 import { getQuestionsData } from "../../Api/Questions";
-// import { getWords } from "../../Api/wordFounder/wordFounder";
+import { useNavigate } from "react-router-dom"; 
+
 
 const WordSearch = () => {
-  const initialGrid = Array(20)
-    .fill(null)
-    .map(() => Array(20).fill(""));
+  const initialGrid = Array(20).fill(null).map(() => Array(20).fill(""));
   const [grid, setGrid] = useState(initialGrid);
   const [AssignmentData, setAssignmentData] = useState([]);
   const [selectedCells, setSelectedCells] = useState([]);
   const [foundWords, setFoundWords] = useState([]);
-  const [remainingWords, setRemainingWords] = useState(
-    [].map((word) =>
-      word
-        .toLowerCase()
-        .replace(/[^a-z]/g, "")
-        .replace(/[<>?,.{}[\]()!@#$%^&* ]/g, "")
-    )
-  );
-
+  const [remainingWords, setRemainingWords] = useState([]);
   const [gameStarted, setGameStarted] = useState(false);
-  const [timer, setTimer] = useState(600); // 10 minutes in seconds
+  const [timeLeft, setTimeLeft] = useState(5); // 10 minutes in seconds
+  const [score, setScore] = useState(0);
+  const [quizComplete, setQuizComplete] = useState(false);
+  const navigate = useNavigate(); // Initialize useNavigate hook
 
-  const timerRef = useRef(0);
 
   useEffect(() => {
     const fetchWords = async () => {
       const subject = localStorage.getItem("subject");
       const assignment = localStorage.getItem("assignment");
       const que = { subject, assignment };
-  
+
       try {
         const response = await getQuestionsData(que);
-        const wordsArray = response.data[0];
-        const questions = Object.keys(wordsArray.questions).map((question) => ({
-          question: question,
-          answer: wordsArray.questions[question],
-        }));
-  
-        console.log(questions);
-  
-        // Extract only the answers from the questions array
-        const answers = questions.map((question) => question.answer);
-  
-        setRemainingWords(answers);
+        setAssignmentData(response.data);
+        setRemainingWords(
+          response.data.map((item) => item.answer.toLowerCase())
+        );
         setGameStarted(true);
       } catch (error) {
         console.error(error);
       }
     };
-  
+
     if (!gameStarted) {
       fetchWords();
     }
   }, []);
-  
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (timeLeft > 0 && remainingWords.length > 0 && !quizComplete) {
+        setTimeLeft(timeLeft - 1);
+      } else {
+        setQuizComplete(true);
+      }
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, [timeLeft, remainingWords, quizComplete]);
+
   useEffect(() => {
     const newGrid = [...grid];
     const placedWords = new Set();
@@ -269,16 +73,11 @@ const WordSearch = () => {
       const maxAttempts = 10;
 
       for (let attempt = 0; attempt < maxAttempts; attempt++) {
-        const direction =
-          directions[Math.floor(Math.random() * directions.length)];
+        const direction = directions[Math.floor(Math.random() * directions.length)];
         const [dx, dy] = direction;
 
-        const row = Math.floor(
-          Math.random() * (newGrid.length - dx * (word.length - 1))
-        );
-        const col = Math.floor(
-          Math.random() * (newGrid[0].length - dy * (word.length - 1))
-        );
+        const row = Math.floor(Math.random() * (newGrid.length - dx * (word.length - 1)));
+        const col = Math.floor(Math.random() * (newGrid[0].length - dy * (word.length - 1)));
 
         // Check if the placement is within the bounds of the grid
         if (
@@ -296,10 +95,7 @@ const WordSearch = () => {
           const newRow = row + i * dx;
           const newCol = col + i * dy;
 
-          if (
-            newGrid[newRow][newCol] === "" ||
-            newGrid[newRow][newCol] === word[i]
-          ) {
+          if (newGrid[newRow][newCol] === "" || newGrid[newRow][newCol] === word[i]) {
             newGrid[newRow][newCol] = word[i];
           } else {
             validPlacement = false;
@@ -308,7 +104,7 @@ const WordSearch = () => {
         }
 
         if (validPlacement) {
-          placedWords.add(word); // Mark word as placed
+          placedWords.add(word); 
           return;
         }
       }
@@ -317,23 +113,7 @@ const WordSearch = () => {
     remainingWords.forEach((word) => placeWord(word));
 
     setGrid(newGrid);
-
-    const intervalId = setInterval(() => {
-      if (timerRef.current > 0) {
-        timerRef.current -= 1;
-        setTimer(timerRef.current);
-      } else {
-        clearInterval(intervalId);
-        alert("Time's up! You have reached 10 minutes.");
-      }
-    }, 1000);
-
-    timerRef.current = timer; // Initialize timerRef with the initial value
-
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, [grid, remainingWords, timer]);
+  }, [grid, remainingWords]);
 
   const handleCellClick = (rowIndex, colIndex) => {
     const cell = grid[rowIndex][colIndex];
@@ -367,85 +147,108 @@ const WordSearch = () => {
       setFoundWords([...foundWords, currentWord]);
       setRemainingWords(remainingWords.filter((word) => word !== currentWord));
       setSelectedCells([]);
+      setScore(score + 1); 
     }
   };
+  useEffect(() => {
+    if (quizComplete) {
+      const timeout = setTimeout(() => {
+        navigate("/Dashboard");
+      }, 10000);
 
-  // useEffect(() => {
-  //   if (remainingWords.length === 0) {
-  //     clearInterval(timerRef.current);
-  //     alert(
-  //       `Congratulations! You found all the words in ${Math.floor(
-  //         (timer - timerRef.current) / 60
-  //       )} minutes and ${timer - timerRef.current} seconds.`
-  //     );
-  //   }
-  // }, [remainingWords]);
+      return () => clearTimeout(timeout);
+    }
+  }, [quizComplete, navigate]);
+
 
   return (
-    <div
-      className="container1"
-      style={{ backgroundColor: "#000000", overflowY: "hidden" }}
-    >
-      <h1 className="text-center mt-3" style={{ color: "#E5D283" }}>
-        Word Search Puzzle
-      </h1>
-      <div className="row">
-        <div className="col-md-8">
-          <table className="table table-bordered text-center">
-            <tbody>
-              {grid.map((row, rowIndex) => (
-                <tr key={rowIndex}>
-                  {row.map((cell, colIndex) => (
-                    <td
-                      key={colIndex}
-                      onClick={() => handleCellClick(rowIndex, colIndex)}
-                      className={`${
-                        selectedCells.some(
-                          (cellInfo) =>
-                            cellInfo.row === rowIndex &&
-                            cellInfo.col === colIndex
-                        )
-                          ? "selected"
-                          : ""
-                      } ${foundWords.includes(cell) ? "found-word-cell" : ""} ${
-                        cell === " " ? "active bg-primary" : ""
-                      }`}
-                    >
-                      {cell}
-                    </td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <div className="col-md-4">
-          <h2>Words Found:</h2>
-          <div className="found-words">
-            {foundWords.map((word, index) => (
-              <span key={index} className="found-word">
-                {word}
-              </span>
-            ))}
+    <>
+      <section style={{ backgroundColor: "#D0C9C2", height: "100vh", overflow: "hidden" }}>
+        <div className="container-fluid">
+          <div className="timer" style={{ position: "absolute", top: "90px", right: "10px" }}>
+            Time Left: {formatTime(timeLeft)}
           </div>
-          <h2>
-            Timer: {Math.floor(timerRef.current / 60)} minutes{" "}
-            {timerRef.current % 60} seconds
-          </h2>
+          <h1 className="text-center mt-3" style={{ color: "#E5D283" }}>
+            Word Search Puzzle
+          </h1>
           <div className="row">
-            <div className="col-md-4">
-              <h2>Words Remaining:</h2>
-              <ul style={{ color: "white" }}>
-                {remainingWords.map((word) => (
-                  <li key={word}>{word}</li>
+            <div className="col-md-8">
+              <table className="table table-bordered text-center">
+                <tbody>
+                  {grid.map((row, rowIndex) => (
+                    <tr key={rowIndex}>
+                      {row.map((cell, colIndex) => (
+                        <td
+                          key={colIndex}
+                          onClick={() => handleCellClick(rowIndex, colIndex)}
+                          className={`${
+                            selectedCells.some(
+                              (cellInfo) =>
+                                cellInfo.row === rowIndex &&
+                                cellInfo.col === colIndex
+                            )
+                              ? "selected"
+                              : ""
+                          } ${
+                            foundWords.includes(cell) ? "found-word-cell" : ""
+                          } ${cell === " " ? "active bg-primary" : ""}`}
+                        >
+                          {cell}
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <div className="col-md-4 ">
+              <h2>Words Found:</h2>
+              <div className="found-words mirror">
+                {foundWords.map((word, index) => (
+                  <span key={index} className="found-word">
+                    {word}
+                  </span>
                 ))}
-              </ul>
+              </div>
+              <h2>Words Remaining:</h2>
+              <div className="col-md-12 mirror">
+                <ul style={{ color: "white" }}>
+                  {remainingWords.map((word, index) => (
+                    <li key={index}>
+                      {index + 1}.{" "}
+                      {AssignmentData.map((data) => {
+                        if (data.answer === word) {
+                          return data.questions;
+                        }
+                        return null;
+                      })}
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
           </div>
+          {(quizComplete || timeLeft <= 0) && (
+            <div
+              className="text-light p-4 d-flex justify-content-center align-items-center"
+              style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0, backgroundColor: "black" }}
+            >
+              <div>
+                <h2>{quizComplete ? "Test Completed" : "Time's Up!"}</h2>
+                <p>Your Score is: {score}</p>
+              </div>
+            </div>
+          )}
         </div>
-      </div>
-    </div>
+      </section>
+    </>
   );
+};
+
+const formatTime = (timeLeft) => {
+  const minutes = Math.floor(timeLeft / 60);
+  const seconds = timeLeft % 60;
+  return `${minutes < 10 ? "0" : ""}${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
 };
 
 export default WordSearch;

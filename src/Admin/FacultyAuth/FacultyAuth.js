@@ -2,11 +2,11 @@ import "bootstrap/dist/css/bootstrap.css";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import brain from "../../Assests/images/login.png";
-import { login, register } from "../../Api/login";
+import { login, register } from "../../Api/AdminLogin";
 
 const FacultyAuth = () => {
   const [showSignup, setshowSignup] = useState(false);
-  const [username, setusername] = useState("");
+  const [adminname, setadminname] = useState("");
   const [password, setpassword] = useState("");
   const [pinNo, setpinNo] = useState("");
   const [email, setemail] = useState("");
@@ -15,7 +15,7 @@ const FacultyAuth = () => {
   const [hidepass, sethidepass] = useState(false);
 
   const clearState = () => {
-    setusername("");
+    setadminname("");
     setpassword("");
     setemail("");
     setpinNo("");
@@ -36,10 +36,10 @@ const FacultyAuth = () => {
   const navigate = useNavigate();
 
   const loginHandler = async () => {
-    const user = { username, password };
+    const user = { adminname, password };
 
-    if (!username || !password) {
-      setauthResponse("Username and Password  are required !!");
+    if (!adminname || !password) {
+      setauthResponse("adminname and Password  are required !!");
       setsignupSuccess(false);
       return;
     }
@@ -48,11 +48,11 @@ const FacultyAuth = () => {
       const response = await login(user);
       if (response.status === 200) {
         setsignupSuccess(true);
-        navigate("/Dashboard");
+        navigate("/AdminDashboard");
         console.log(response);
-        const usersName = response.data.user.username;
+        const adminname = response.data.user.adminname;
         console.log(usersName);
-        localStorage.setItem("username", usersName);
+        localStorage.setItem("adminname", adminname);
       } else {
         setauthResponse(response);
       }
@@ -63,10 +63,10 @@ const FacultyAuth = () => {
   };
 
   const registerHandler = async () => {
-    const user = { username, email, pinNo, password };
+    const user = { adminname, email, pinNo, password };
 
-    if (!username || !email || !pinNo || !password) {
-      setauthResponse("Username, Email, Password are required !!");
+    if (!adminname || !email || !pinNo || !password) {
+      setauthResponse("adminname, Email, Password are required !!");
       setsignupSuccess(false);
       return;
     }
@@ -169,8 +169,8 @@ const FacultyAuth = () => {
                       placeholder="Faculty Name"
                       autoFocus
                       autoComplete="off"
-                      value={username}
-                      onChange={(e) => setusername(e.target.value)}
+                      value={adminname}
+                      onChange={(e) => setadminname(e.target.value)}
                     />
                   </div>
                   <div className="mb-3">

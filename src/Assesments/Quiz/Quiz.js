@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import "./Quiz.css";
-import "bootstrap/dist/css/bootstrap.css";
 import { getQuestionsData } from "../../Api/Questions";
+import { useNavigate } from "react-router-dom"; // Import useNavigate hook
+import "bootstrap/dist/css/bootstrap.css";
+import "./Quiz.css";
 
 const Quiz = () => {
   const [questions, setQuestions] = useState([]);
@@ -11,27 +12,20 @@ const Quiz = () => {
   const [result, setResult] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [quizComplete, setQuizComplete] = useState(false); // New state variable
+  const [quizComplete, setQuizComplete] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(600); // 10 minutes timer
+  const navigate = useNavigate(); // Initialize useNavigate hook
 
   useEffect(() => {
-    // Fetch questions when the component mounts
     const subject = localStorage.getItem("subject");
     const assignment = localStorage.getItem("assignment");
+
     const fetchQuestions = async () => {
       const que = { subject, assignment };
-      console.log(que);
       try {
         const response = await getQuestionsData(que);
-        const assignmentData = response.data[0];
-
-        const questions = Object.keys(assignmentData.questions).map(
-          (question) => ({
-            question: question,
-            answer: assignmentData.questions[question],
-          })
-        );
-        console.log(questions);
-        setQuestions(questions);
+        const questionsData = response.data;
+        setQuestions(questionsData);
         setLoading(false);
       } catch (error) {
         setError(error.message);
@@ -42,20 +36,27 @@ const Quiz = () => {
     fetchQuestions();
   }, []);
 
-  const shuffleQuestions = (array) => {
-    // Shuffles an array using the Fisher-Yates algorithm
-    let currentIndex = array.length,
-      randomIndex,
-      temporaryValue;
-    while (currentIndex !== 0) {
-      randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex--;
-      temporaryValue = array[currentIndex];
-      array[currentIndex] = array[randomIndex];
-      array[randomIndex] = temporaryValue;
+  useEffect(() => {
+    const timer = setInterval(() => {
+      if (timeLeft > 0 && !quizComplete) {
+        setTimeLeft((prevTime) => prevTime - 1);
+      } else {
+        clearInterval(timer);
+      }
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [timeLeft, quizComplete]);
+
+  useEffect(() => {
+    if (quizComplete) {
+      const timeout = setTimeout(() => {
+        navigate("/Dashboard");
+      }, 10000);
+
+      return () => clearTimeout(timeout);
     }
-    return array;
-  };
+  }, [quizComplete, navigate]);
 
   const handleAnswerChange = (e) => {
     setUserAnswer(e.target.value);
@@ -83,66 +84,58 @@ const Quiz = () => {
     setUserAnswer("");
 
     if (currentQuestionIndex < questions.length - 1) {
-      // If there are more questions, move to the next question
       setCurrentQuestionIndex(currentQuestionIndex + 1);
     } else {
-      // Quiz is complete, no more questions
-      // You can add your own logic here for what to do when the quiz ends
-      setQuizComplete(true); // Set quizComplete to true
+      setQuizComplete(true);
     }
-  };
-
-  const renderQuestion = () => {
-    if (loading) {
-      return <p>Loading...</p>;
-    }
-
-    if (error) {
-      return <p>Error: {error}</p>;
-    }
-
-    if (quizComplete) {
-      return (
-        <div style={{ backgroundColor: "#4F709C" }}>
-          <h2 style={{ backgroundColor: "#4F709C" }}>Quiz Complete</h2>
-          <p style={{ backgroundColor: "#4F709C" }}>Your Score is: {score}</p>
-        </div>
-      );
-    }
-
-    const currentQuestion = questions[currentQuestionIndex];
-
-    return (
-      <div style={{ backgroundColor: "#4F709C" }}>
-        <h2 style={{ color: "#E5D283", backgroundColor: "#4F709C" }}>
-          {currentQuestion.question}
-        </h2>
-        <input
-          type="text"
-          value={userAnswer}
-          onChange={handleAnswerChange}
-          placeholder="Your Answer"
-          className="form-control"
-          style={{ width: "50%", marginLeft: "25%" }}
-        />
-        <p style={{ backgroundColor: "#4F709C" }}>Score: {score}</p>
-        <button onClick={nextQuestion}>Next Question</button>
-      </div>
-    );
   };
 
   return (
-    <>
-      <section
-        className="quiz"
-        style={{ backgroundColor: "#000000", height: "100vh", padding: "5%" }}
-      >
-        <div className="container">
-          <h1 style={{ backgroundColor: "#4F709C" }}>Quiz</h1>
-          {renderQuestion()}
-        </div>
-      </section>
-    </>
+    <section
+      className="quiz d-flex align-items-center justify-content-center"
+      style={{ backgroundColor: "#F8F7EF", color: "#2B2925", height: "100vh" }}
+    >
+      <div className="container">
+        <h1 className="text-light text-center">Quiz</h1>
+        {!quizComplete && timeLeft > 0 && (
+          <div className="row justify-content-center align-items-center shadow-lg p-3" style={{ maxWidth: "800px", width: "100%" }}>
+            <div className="col-md-12 text-center">
+              <div className="text-light p-1 d-flex flex-column align-items-center justify-content-center">
+                <h2 style={{ color: "#2B2925" }}>{questions[currentQuestionIndex]?.questions}</h2>
+                <input
+                  type="text"
+                  value={userAnswer}
+                  onChange={handleAnswerChange}
+                  placeholder="Your Answer"
+                  className="form-control border border-dark "
+                  style={{ width: "50%" }}
+                />
+                <button className="btn btn-light custom-button mt-3" onClick={nextQuestion}>
+                  Next Question
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {(quizComplete || timeLeft <= 0) && (
+          <div
+            className="text-light p-4 d-flex justify-content-center align-items-center"
+            style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0, backgroundColor: "rgba(0, 0, 0, 0.5)" }}
+          >
+            <div>
+              <h2>{quizComplete ? "Quiz Complete" : "Time's Up!"}</h2>
+              <p>Your Score is: {score}</p>
+            </div>
+          </div>
+        )}
+      </div>
+
+      <div style={{ position: "fixed", bottom: 20, right: 20, backgroundColor: "rgba(255, 255, 255, 0.8)", padding: 10, borderRadius: 5 }}>
+        Time Left: {Math.floor(timeLeft / 60)}:{(timeLeft % 60).toLocaleString('en-US', {minimumIntegerDigits: 2})}
+      </div>
+
+    </section>
   );
 };
 

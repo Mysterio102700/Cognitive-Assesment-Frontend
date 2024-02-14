@@ -1,7 +1,7 @@
 import { AxiosInstances } from "../../Utils/AxiosInstances";
 
 export const login = async (user) => {
-  const URL = "/login";
+  const URL = "/adminLogin";
 
   try {
     const response = await AxiosInstances.post(URL, user);
