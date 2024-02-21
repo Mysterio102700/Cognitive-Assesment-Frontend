@@ -5,7 +5,6 @@ export const login = async (user) => {
 
   try {
     const response = await AxiosInstances.post(URL, user);
-    console.log(response);
     return response;
   } catch (error) {
     console.log();

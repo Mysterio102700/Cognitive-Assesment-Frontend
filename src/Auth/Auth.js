@@ -59,16 +59,16 @@ const Auth = () => {
       if (response.status === 200) {
         setsignupSuccess(true);
         navigate("/Dashboard");
-        console.log(response);
         const usersName = response.data.user.username;
         const uYear = response.data.user.year;
         const uSemester = response.data.user.semester;
         const uBranch = response.data.user.branch;
-        console.log(usersName);
+        const uPinNo = response.data.user.pinno;
         localStorage.setItem("username", usersName);
         localStorage.setItem("year", uYear);
         localStorage.setItem("semester", uSemester);
         localStorage.setItem("branch", uBranch);
+        localStorage.setItem("pinno", uPinNo);
       } else {
         setauthResponse(response);
       }
@@ -115,10 +115,15 @@ const Auth = () => {
           style={{
             backgroundColor: "#D0C9C2",
             height: "100vh",
-            overflow: "hidden",
           }}
         >
-          <div className="container ">
+          <div
+            className="container d-flex justify-content-center align-items-center"
+            style={{
+              height: "90%",
+              zIndex: 999,
+            }}
+          >
             <div className="blob">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -153,7 +158,7 @@ const Auth = () => {
                 />
               </svg>
             </div>
-            <div className="row shadow-lg">
+            <div className="row shadow-lg " style={{ zIndex: 999 }}>
               <div className="col-8 login-img">
                 <img src={brain} alt="" />
               </div>
@@ -300,9 +305,7 @@ const Auth = () => {
                     </button>
                   </div>
                   <div className="auth-msg">
-                    {showSignup
-                      ? "login as  !!"
-                      : "Register as  ?"}
+                    {showSignup ? "login as  !!" : "Register as  ?"}
                     <Link to="/Admin">Faculty</Link>
                   </div>
                   {

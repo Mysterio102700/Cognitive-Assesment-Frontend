@@ -13,6 +13,9 @@ import WordSearch from "../Assesments/WordSearch/WordSearch";
 import FacultyAuth from "../Admin/FacultyAuth/FacultyAuth";
 import MissingWords from "../Assesments/MissingWords/MissingWords";
 import Dashboard from "../Admin/AdminDashboard/Dashboard";
+import EditSubject from "../Admin/EditSubject/EditSubject";
+import EditQuestions from "../Admin/EditQuestions/EditQuestions";
+import Result from "../Admin/Results/Result";
 
 const AppRoutes = () => {
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
@@ -36,6 +39,10 @@ const AppRoutes = () => {
         <Route path="/wordsearch" element={<WordSearch/>}/>
         <Route path="/MissingWords" element={<MissingWords/>}/>
         <Route path="/AdminDashboard" element={<Dashboard/>}/>
+        <Route path="/EditSubject" element={<EditSubject/>}/>
+        <Route path="/EditQuestions" element={<EditQuestions/>}/>
+        <Route path="/Results" element={<Result/>}/>
+
       </Routes>
       <route path="/Dashboard" element={<Sidebar />} />
       <Sidebar />

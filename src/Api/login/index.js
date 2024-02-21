@@ -5,7 +5,6 @@ export const login = async (user) => {
 
   try {
     const response = await AxiosInstances.post(URL, user);
-    console.log(response);
     return response;
   } catch (error) {
     console.log();
@@ -26,8 +25,5 @@ export const register = async (user) => {
 
 export const signOut = async () => {
   localStorage.removeItem("username");
-  localStorage.removeItem("userId");
-  localStorage.removeItem("token");
-  localStorage.removeItem("productId");
   localStorage.removeItem("email");
 };

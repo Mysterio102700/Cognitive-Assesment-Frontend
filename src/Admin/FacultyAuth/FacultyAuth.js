@@ -51,8 +51,9 @@ const FacultyAuth = () => {
         navigate("/AdminDashboard");
         console.log(response);
         const adminname = response.data.user.adminname;
-        console.log(usersName);
+        console.log(adminname);
         localStorage.setItem("adminname", adminname);
+        localStorage.setItem("role", "Admin");
       } else {
         setauthResponse(response);
       }
@@ -92,7 +93,13 @@ const FacultyAuth = () => {
             overflow: "hidden",
           }}
         >
-          <div className="container ">
+          <div
+            className="container d-flex justify-content-center align-items-center "
+            style={{
+              height: "90%",
+              zIndex: 999,
+            }}
+          >
             <div className="blob">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -127,7 +134,7 @@ const FacultyAuth = () => {
                 />
               </svg>
             </div>
-            <div className="row shadow-lg">
+            <div className="row shadow-lg" style={{zIndex:999}}>
               <div className="col-8 login-img">
                 <img src={brain} alt="" />
               </div>

@@ -1,175 +1,172 @@
-import React ,{useEffect,useState}from "react";
-import "./MissingWords.css"
+import React, { useState, useEffect } from "react";
+import { getQuestionsData } from "../../Api/Questions";
+import { useNavigate } from "react-router-dom";
 
 const MissingWords = () => {
-  const questions = [
-    {
-      question: "1. What is the C keyword for declaring a function?",
-      answerWithMissingLetters: "Answer: V_I_",
-      correctAnswer: "VOID",
-    },
-    {
-      question: "2. Which C keyword is used to terminate a loop prematurely?",
-      answerWithMissingLetters: "Answer: B_E_K",
-      correctAnswer: "BREAK",
-    },
-    {
-      question: "3. Loop that runs until a condition is false?",
-      answerWithMissingLetters: "Answer: W_I_E",
-      correctAnswer: "WHILE",
-    },
-    {
-      question: "4. Which operator is used for equality comparison?",
-      answerWithMissingLetters: "Answer: E_U_L",
-      correctAnswer: "EQUAL",
-    },
-    {
-      question: "5. Which function is used to read input from the keyboard?",
-      answerWithMissingLetters: "Answer: S_A_F",
-      correctAnswer: "SCANF",
-    },
-    {
-      question:
-        "6. Which function is used to allocate memory for an array of an elements?",
-      answerWithMissingLetters: "Answer: C_L_O_",
-      correctAnswer: "CALLOC",
-    },
-    {
-      question: "7. Which keyword is used to define a macro?",
-      answerWithMissingLetters: "Answer: _D_F_N_",
-      correctAnswer: "#DEFINE",
-    },
-    {
-      question: "8. What is the purpose of ELSE keyword?",
-      answerWithMissingLetters: "Answer: A_T_R_A_I_E",
-      correctAnswer: "ALTERNATIVE",
-    },
-    {
-      question: "9. The operator || (double vertical bar) indicates?",
-      answerWithMissingLetters: "Answer: L_G_C_L_R",
-      correctAnswer: "LOGICALOR",
-    },
-    {
-      question: "10. What is the purpose BREAK keyword?",
-      answerWithMissingLetters: "Answer: T_R_I_A_E",
-      correctAnswer: "TERMINATE",
-    },
-  ];
+  const [words, setWords] = useState([]);
+  const [currentWordObj, setCurrentWordObj] = useState({});
+  const [score, setScore] = useState(0);
+  const [feedback, setFeedback] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [timeLeft, setTimeLeft] = useState(300); // 5 minutes in seconds
+  const [quizComplete, setQuizComplete] = useState(false);
+  const navigate = useNavigate();
 
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const currentQuestion = questions[currentQuestionIndex];
-  const [userAnswers, setUserAnswers] = useState(
-    Array(currentQuestion.correctAnswer.length).fill("")
-  );
-  const [savedAnswers, setSavedAnswers] = useState(
-    Array(questions.length).fill("")
-  );
-  const [answerSaved, setAnswerSaved] = useState(false);
-  const [testSubmitted, setTestSubmitted] = useState(false);
+  useEffect(() => {
+    const timer = setInterval(() => {
+      if (timeLeft > 0 && !quizComplete) {
+        setTimeLeft((prevTime) => prevTime - 1);
+      } else {
+        clearInterval(timer);
+        if (!quizComplete) {
+          navigate("/Dashboard");
+        }
+      }
+    }, 1000);
 
-  const handleAnswerChange = (index, event) => {
-    const newAnswers = [...userAnswers];
-    newAnswers[index] = event.target.value;
+    return () => clearInterval(timer);
+  }, [timeLeft, quizComplete, navigate]);
 
-    // Move cursor to the next space
-    if (index < newAnswers.length - 1 && event.target.value !== "") {
-      document.getElementById(`answer-${index + 1}`).focus();
+  useEffect(() => {
+    if (quizComplete) {
+      const timeout = setTimeout(() => {
+        navigate("/Dashboard");
+      }, 10000); 
+
+      return () => clearTimeout(timeout);
+    }
+  }, [quizComplete, navigate]);
+
+  useEffect(() => {
+    const fetchQuestions = async () => {
+      const subject = localStorage.getItem("subject");
+      const assignment = localStorage.getItem("assignment");
+      const que = { subject, assignment };
+      try {
+        const response = await getQuestionsData(que);
+        const questionsData = response.data;
+        setWords(questionsData);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching questions:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchQuestions();
+  }, []);
+
+  useEffect(() => {
+    chooseWord();
+  }, [words]);
+
+  const chooseWord = () => {
+    if (words.length === 0) return;
+    const randomIndex = Math.floor(Math.random() * words.length);
+    const word = words[randomIndex].answer;
+    const wordArray = word.split("");
+    const userInputs = [];
+
+    for (let i = 0; i < wordArray.length; i++) {
+      if (Math.random() < 0.5) {
+        userInputs.push(wordArray[i]);
+      } else {
+        userInputs.push("");
+      }
     }
 
-    setUserAnswers(newAnswers);
-    setAnswerSaved(false); // Reset the saved status when the answer is changed
+    setCurrentWordObj({ ...words[randomIndex], userInputs });
   };
 
-  const handleSaveClick = () => {
-    setSavedAnswers((prevSavedAnswers) => {
-      const newSavedAnswers = [...prevSavedAnswers];
-      newSavedAnswers[currentQuestionIndex] = userAnswers.join("");
-      setAnswerSaved(true); // Mark the answer as saved
-      return newSavedAnswers;
-    });
+  const handleInputChange = (event, index) => {
+    const newInputs = [...currentWordObj.userInputs];
+    newInputs[index] = event.target.value;
+    setCurrentWordObj({ ...currentWordObj, userInputs: newInputs });
   };
 
-  const handleNextClick = () => {
-    if (currentQuestionIndex < questions.length - 1) {
-      setCurrentQuestionIndex(currentQuestionIndex + 1);
-      setUserAnswers(
-        Array(questions[currentQuestionIndex + 1].correctAnswer.length).fill("")
-      );
-      setAnswerSaved(false); // Reset the saved status for the new question
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    const userWord = currentWordObj.userInputs.join("").toLowerCase();
+    const correctWord = currentWordObj.answer.toLowerCase();
+
+    if (userWord === correctWord) {
+      setScore(score + 1);
+      setFeedback("Correct!");
+    } else {
+      setFeedback("Incorrect! Try again.");
     }
+
+    setCurrentWordObj({});
+    chooseWord();
   };
 
-  const handlePreviousClick = () => {
-    if (currentQuestionIndex > 0) {
-      setCurrentQuestionIndex(currentQuestionIndex - 1);
-      setUserAnswers(savedAnswers[currentQuestionIndex - 1].split(""));
-      setAnswerSaved(false); // Reset the saved status for the previous question
+  const renderWordWithMissingLetter = () => {
+    if (!currentWordObj.answer) return "";
+
+    const wordArray = currentWordObj.answer.split("");
+    const inputs = [];
+
+    for (let i = 0; i < wordArray.length; i++) {
+      if (wordArray[i] !== " ") {
+        const predefinedValue =
+          currentWordObj.userInputs[i] !== undefined
+            ? currentWordObj.userInputs[i]
+            : "";
+        inputs.push(
+          <input
+            key={i}
+            type="text"
+            value={predefinedValue}
+            onChange={(event) => handleInputChange(event, i)}
+            maxLength={1}
+            style={{
+              width: "50px",
+              backgroundColor: "#F8F7EF",
+              color: "#2B2925",
+              border: "1px solid #D0C9C2",
+              borderRadius: "5px",
+              padding: "5px",
+              margin: "5px",
+            }}
+          />
+        );
+      } else {
+        inputs.push(<span key={i}>&nbsp;</span>);
+      }
     }
-  };
 
-  const handleSubmitClick = () => {
-    // Perform any necessary actions before submitting (e.g., checking answers)
-    // For now, you can add your submission logic here.
-
-    // If you want to keep track of test submission without any pop-up or action:
-    setTestSubmitted(true);
+    return (
+      <div style={{ display: "flex", justifyContent: "center" }}>{inputs}</div>
+    );
   };
 
   return (
-    <>
-      <div className="main-container">
-        <h1>C Programming Assessment</h1>
-        <h3>Fill in the Blanks</h3>
-
-        <div className="question-container">
-          <div>
-            <p>{currentQuestion.question}</p>
-          </div>
-          <div className="answers">
-            <p>
-              {currentQuestion.answerWithMissingLetters.replace(
-                /_/g,
-                (_, index) => userAnswers[index] || "_"
-              )}
-            </p>
-            {userAnswers.map((answer, index) => (
-              <input
-                id={`answer-${index}`}
-                key={index}
-                type="text"
-                value={answer}
-                onChange={(event) => handleAnswerChange(index, event)}
-                placeholder="_"
-              />
-            ))}
-          </div>
-          <div className="button-container">
-            <button
-              onClick={handleSaveClick}
-              className={answerSaved ? "saved" : ""}
-            >
-              {answerSaved ? "Answer Saved" : "Save Answer"}
+    <section
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        minHeight: "100vh",
+        backgroundColor: "#E8BE71",
+      }}
+    >
+      <div style={{ textAlign: "center", color: "#2B2925" }}>
+        <h1>Missing Words Quiz</h1>
+        <p>Question: {currentWordObj.questions}</p>
+        <form onSubmit={handleSubmit}>
+          {renderWordWithMissingLetter()}
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <button type="submit" className="btn btn-primary mt-2">
+              Submit
             </button>
-            <button
-              onClick={handlePreviousClick}
-              disabled={currentQuestionIndex === 0}
-            >
-              Previous
-            </button>
-            {currentQuestionIndex === questions.length - 1 ? (
-              <button onClick={handleSubmitClick}>Submit Test</button>
-            ) : (
-              <button
-                onClick={handleNextClick}
-                disabled={currentQuestionIndex === questions.length - 1}
-              >
-                Next
-              </button>
-            )}
           </div>
-        </div>
+        </form>
+        <p>Score: {score}</p>
+        <p>{feedback}</p>
+        <p>Time Left: {Math.floor(timeLeft / 60)}:{timeLeft % 60}</p>
       </div>
-    </>
+    </section>
   );
 };
 

@@ -1,0 +1,60 @@
+/* EditSubject.css */
+
+:root {
+    --primary-color: #E8BE71;
+    --secondary-color: #2B2925;
+    --accent-color: #D0C9C2;
+    --active-color: #007BFF;
+  }
+  
+  .edit-subject-section {
+    height: 100vh;
+    background-color: var(--accent-color);
+  }
+  
+  .input-group button {
+    background-color: var(--active-color);
+  }
+  
+  /* .input-group button:hover {
+    background-color: var(--found-word-color);
+  } */
+  
+  .card {
+    background-color: var(--secondary-color);
+  }
+  
+  .card-title {
+    color: var(--primary-color);
+  }
+  
+  .btn-outline-primary {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+  }
+  
+  /* .btn-outline-primary:hover {
+    background-color: var(--primary-color);
+    color: var(--accent-color);
+  } */
+  
+  /* .btn-outline-success {
+    border-color: var(--found-word-color);
+    color: var(--found-word-color);
+  } */
+  
+  /* .btn-outline-success:hover {
+    background-color: var(--found-word-color);
+    color: var(--accent-color);
+  } */
+  
+  /* .btn-outline-danger {
+    border-color: var(--secondary-color);
+    color: var(--secondary-color);
+  } */
+/*   
+  .btn-outline-danger:hover {
+    background-color: var(--secondary-color);
+    color: var(--accent-color);
+  }
+   */

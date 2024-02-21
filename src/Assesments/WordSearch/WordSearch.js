@@ -158,7 +158,7 @@ const WordSearch = () => {
 
       return () => clearTimeout(timeout);
     }
-  }, [quizComplete, navigate]);
+  }, [quizComplete]);
 
 
   return (

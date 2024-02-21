@@ -34,11 +34,12 @@ const Subjects = () => {
       localStorage.setItem("subject", selectedSubject);
     }
   }, [selectedSubject]);
+  
   return (
     <>
       <h1>Subjects</h1>
       <div className="container">
-        <div className="row p-5">
+        <div className="row justify-content-center">
           {subjects.map((button, index) => (
             <div key={index} className="col-md-4 col-sm-6 col-12 mb-2">
               <button
