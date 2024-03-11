@@ -18,3 +18,14 @@ export const postResults = async (data) =>{
         console.log(error)
     }
 }
+
+
+export const areaChartResults = async (data) =>{
+    const URL="/areaChart"
+    try {
+        const response = await AxiosInstances.post(URL,data)
+        return response
+    } catch (error) {
+        console.log(error)
+    }
+}

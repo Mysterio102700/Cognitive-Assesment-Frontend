@@ -1,12 +1,13 @@
 import React, { useCallback, useState } from "react";
-import { PieChart, Pie, Sector, ResponsiveContainer, Tooltip } from "recharts";
+import { PieChart, Pie, Sector, ResponsiveContainer } from "recharts";
 
 const data = [
-  { name: "CC", value: 400 },
-  { name: "DL", value: 300 },
-  { name: "DM", value: 300 },
-  { name: "SPM", value: 200 },
-  { name: "Enterpunership", value: 200 },
+  { name: "C Language", value: 100 },
+  { name: "Python", value: 75 },
+  { name: "Java", value: 90 },
+  { name: "Operating Systems", value: 50 },
+  { name: "DBMS", value: 75 },
+
 ];
 
 const renderActiveShape = (props) => {
@@ -68,7 +69,7 @@ const renderActiveShape = (props) => {
         y={ey}
         textAnchor={textAnchor}
         fill="#333"
-      >{`PV ${value}`}</text>
+      >{`Score: ${value}`}</text>
       <text
         x={ex + (cos >= 0 ? 1 : -1) * 12}
         y={ey}
@@ -82,7 +83,7 @@ const renderActiveShape = (props) => {
   );
 };
 
-const PieCharts = () => {
+const MyPieChart = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const onPieEnter = useCallback(
     (_, index) => {
@@ -92,26 +93,28 @@ const PieCharts = () => {
   );
 
   return (
-      <ResponsiveContainer width={500}
-          height={350}>
-      <PieChart>
-        <Pie
-          
-          activeIndex={activeIndex}
-          activeShape={renderActiveShape}
-          data={data}
-          //   cx={200}
-          //   cy={200}
-          innerRadius={100}
-          outerRadius={150}
-          fill="#8884d8"
-          dataKey="value"
-          onMouseEnter={onPieEnter}
-        />
-        <Tooltip />
-      </PieChart>
-    </ResponsiveContainer>
+    <div className="card shadow">
+      <div className="card-body">
+        <h5 className="card-title">Total Scores</h5>
+        <ResponsiveContainer width="100%" height={400}>
+          <PieChart>
+            <Pie
+              activeIndex={activeIndex}
+              activeShape={renderActiveShape}
+              data={data}
+              cx="50%"
+              cy={200}
+              innerRadius={80}
+              outerRadius={100}
+              fill="#8884d8"
+              dataKey="value"
+              onMouseEnter={onPieEnter}
+            />
+          </PieChart>
+        </ResponsiveContainer>
+      </div>
+    </div>
   );
 };
 
-export default PieCharts;
+export default MyPieChart;

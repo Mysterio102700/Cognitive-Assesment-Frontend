@@ -44,7 +44,7 @@ const Subjects = () => {
             <div key={index} className="col-md-4 col-sm-6 col-12 mb-2">
               <button
                 type="button"
-                className="btn btn-dark btn-lg form-control"
+                className="btn btn-dark btn-lg form-control mt-3"
                 onClick={() => toggleConfirm(button)}
               >
                 {button}

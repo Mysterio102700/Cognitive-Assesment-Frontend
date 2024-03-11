@@ -65,8 +65,7 @@ const Result = () => {
       <>
         <section
           className="edit-questions-section py-5"
-          style={{ height: "100vh" }}
-        >
+          style={{ backgroundColor: "#D0C9C2"}}        >
           <div className="py-3">
             <Link
               to="/AdminDashboard"
@@ -176,7 +175,7 @@ const Result = () => {
                   <div className="card">
                     <div className="card-body">
                       <h5 className="card-title">pin-no : {result.pinno}</h5>
-                      <h5 className="card-text">marks:{result.marks}</h5>
+                      <h5 className="card-title">marks : {result.marks}</h5>
                     </div>
                   </div>
                 </div>

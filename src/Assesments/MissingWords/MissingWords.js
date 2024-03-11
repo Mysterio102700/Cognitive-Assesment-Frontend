@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { getQuestionsData } from "../../Api/Questions";
 import { useNavigate } from "react-router-dom";
+import { postResults } from "../../Api/Results";
 
 const MissingWords = () => {
   const [words, setWords] = useState([]);
@@ -8,9 +9,11 @@ const MissingWords = () => {
   const [score, setScore] = useState(0);
   const [feedback, setFeedback] = useState("");
   const [loading, setLoading] = useState(true);
-  const [timeLeft, setTimeLeft] = useState(300); // 5 minutes in seconds
+  const [timeLeft, setTimeLeft] = useState(300);
   const [quizComplete, setQuizComplete] = useState(false);
   const navigate = useNavigate();
+  const [scorePosted, setScorePosted] = useState(false);
+
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -27,15 +30,33 @@ const MissingWords = () => {
     return () => clearInterval(timer);
   }, [timeLeft, quizComplete, navigate]);
 
+  const postScore = async () => {
+    const subject = localStorage.getItem("subject");
+    const assignment = localStorage.getItem("assignment");
+    const branch = localStorage.getItem("branch");
+    const pinno = localStorage.getItem("pinno");
+    const data = { subject, assignment, branch, pinno, score };
+    try {
+      const response = await postResults(data);
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
+    if (quizComplete && !scorePosted) {
+      postScore();
+      setScorePosted(true);
+    }
+
     if (quizComplete) {
       const timeout = setTimeout(() => {
         navigate("/Dashboard");
-      }, 10000); 
-
+      }, 5000);
       return () => clearTimeout(timeout);
     }
-  }, [quizComplete, navigate]);
+  }, [quizComplete]);
 
   useEffect(() => {
     const fetchQuestions = async () => {

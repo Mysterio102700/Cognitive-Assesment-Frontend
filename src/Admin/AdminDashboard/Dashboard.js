@@ -5,7 +5,7 @@ const Dashboard = () => {
   const renderComponent = () => {
     return (
       <>
-        <section style={{ backgroundColor: "#D0C9C2", height: "100vh" }}>
+        <section style={{  backgroundColor: "#D0C9C2"}}>
           <div className="container pt-5">
             <div className="row pt-5" >
               <div className="col-md-4">

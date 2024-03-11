@@ -1,20 +1,67 @@
 import React from "react";
-import "./Dashboard.css";
+import AreaCards from "./AreaCards";
+import MedalsPieChart from "./MedalsPieChart";
+import MyPieChart from "./MyPieChart";
 import Graph from "./Graph";
-import PieCharts from "./PieCharts";
-import SimpleRadar from "./SimpleRadar";
+import Table from "./Table";
+import AreaProgressChart from "./AreaProgressChart";
 
 const Dashboard = () => {
-  const username = localStorage.getItem("username");
   return (
-    <>
-      <h1> Hi Welcome <span style={{color:"#D9A0B3"}}>{username}</span></h1>
-      <div className="dash">
-        <Graph />
-        <PieCharts />
-        <SimpleRadar />
+    <div className="container-fluid">
+      <div className="row mt-4">
+        <div className="col-md-8">
+          <div className="card shadow-sm">
+            <div className="">
+              <AreaCards />
+            </div>
+          </div>
+        </div>
+        {/* <>
+        <div className="col-md-4">
+          <div className="card shadow-sm">
+            <div className="card-body">
+              <MedalsPieChart />
+            </div>
+          </div>
+        </div>
+        </> */}
+        <div className="col-md-4">
+          <div className="card shadow-sm">
+            <div className="card-body">
+              <Table />
+            </div>
+          </div>
+        </div>
       </div>
-    </>
+
+      <div className="row mt-1">
+        <div className="col-md-6">
+          <div className="card shadow-sm">
+            <div className="card-body">
+              <MyPieChart />
+            </div>
+          </div>
+        </div>
+        <div className="col-md-6">
+          <div className="card shadow-sm">
+            <div className="card-body">
+              <Graph />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="row mt-4">
+        <div className="col-md-6">
+          <div className="card shadow-sm">
+            <div className="card-body">
+              <AreaProgressChart />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 

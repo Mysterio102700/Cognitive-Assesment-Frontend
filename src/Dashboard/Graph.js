@@ -13,62 +13,54 @@ import {
 const Graph = () => {
   const data = [
     {
-      "name": "Page A",
-      "uv": 4000,
+      "name": "Assessment 1",
+      "uv": 91,
       "pv": 2400,
       "amt": 2400
     },
     {
-      "name": "Page B",
-      "uv": 3000,
+      "name": "Assessment 2",
+      "uv": 95,
       "pv": 1398,
       "amt": 2210
     },
     {
-      "name": "Page C",
-      "uv": 2000,
+      "name": "Assessment 3",
+      "uv": 80,
       "pv": 9800,
       "amt": 2290
     },
     {
-      "name": "Page D",
-      "uv": 2780,
+      "name": "Assessment 4",
+      "uv": 70,
       "pv": 3908,
       "amt": 2000
     },
     {
-      "name": "Page E",
-      "uv": 1890,
+      "name": "Assessment 5",
+      "uv": 79,
       "pv": 4800,
       "amt": 2181
-    },
-    {
-      "name": "Page F",
-      "uv": 2390,
-      "pv": 3800,
-      "amt": 2500
-    },
-    {
-      "name": "Page G",
-      "uv": 3490,
-      "pv": 4300,
-      "amt": 2100
     }
-  ]
+  ];
 
   return (
-<ResponsiveContainer width={700} height="80%">
-    <AreaChart data={data}
-      margin={{ top: 20, right: 30, left: 0, bottom: 0 }}>
-      <XAxis dataKey="name" />
-      <YAxis />
-      <CartesianGrid strokeDasharray="3 3" />
-      <Tooltip />
-      <ReferenceLine x="Page C" stroke="green" label="Min PAGE" />
-      <ReferenceLine y={4000} label="Max" stroke="red" strokeDasharray="3 3" />
-      <Area type="monotone" dataKey="uv" stroke="#8884d8" fill="#8884d8" />
-    </AreaChart>
-  </ResponsiveContainer>
+    <div className="card">
+      <div className="card-body">
+        <h5 className="card-title">Graph</h5>
+        <ResponsiveContainer width="100%" height={400}>
+          <AreaChart data={data} margin={{ top: 20, right: 30, left: 0, bottom: 0 }}>
+            <XAxis dataKey="name" />
+            <YAxis />
+            <CartesianGrid strokeDasharray="3 3" />
+            <Tooltip />
+            <ReferenceLine x="Page C" stroke="green" label="Min PAGE" />
+            <ReferenceLine y={100} label="Max" stroke="red" strokeDasharray="3 3" />
+            <Area type="monotone" dataKey="uv" stroke="#8884d8" fill="#8884d8" />
+          </AreaChart>
+        </ResponsiveContainer>
+      </div>
+    </div>
   );
 };
 

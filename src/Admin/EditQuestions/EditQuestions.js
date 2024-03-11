@@ -9,6 +9,7 @@ import { getSubjects } from "../../Api/Subjects";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Link } from "react-router-dom";
+import QuestionGeneration from "./QuestionGeneration";
 
 const EditQuestions = () => {
   const [year, setYear] = useState("");
@@ -24,6 +25,7 @@ const EditQuestions = () => {
   const [updatedQuestion, setUpdatedQuestion] = useState("");
   const [updatedAnswer, setUpdatedAnswer] = useState("");
   const [updatedAssignment, setUpdatedAssignment] = useState("");
+
   const semesters = [1, 2];
   const branches = ["CSE", "CSM", "CSC", "ECE", "EEE", "MECH", "CIVIL"];
   const years = Array.from({ length: 4 }, (_, index) => index + 1);
@@ -102,13 +104,15 @@ const EditQuestions = () => {
     }
   };
 
+
+
   return (
     <section
       className="edit-questions-section py-5"
-      style={{ height: "100vh" }}
+      style={{ backgroundColor: "#D0C9C2"}}
     >
       <div className="py-3 ">
-        {" "}
+        {" "} 
         <Link
           to="/AdminDashboard"
           style={{ textDecoration: "none", paddingLeft: "10px" }}
@@ -117,10 +121,10 @@ const EditQuestions = () => {
         </Link>
       </div>
       <div className="container pt-5">
-        <div className="row mb-3 d-flex justify-content-center align-item-center mb-3">
+        <div className="row d-flex justify-content-center align-item-center mb-3">
           <div className="col-md-3">
             <select
-              className="form-select"
+              className="form-select mb-2"
               onChange={(e) => setYear(e.target.value)}
               value={year}
             >
@@ -134,7 +138,7 @@ const EditQuestions = () => {
           </div>
           <div className="col-md-3">
             <select
-              className="form-select"
+              className="form-select mb-2"
               onChange={(e) => setSemester(e.target.value)}
               value={semester}
             >
@@ -148,7 +152,7 @@ const EditQuestions = () => {
           </div>
           <div className="col-md-3">
             <select
-              className="form-select"
+              className="form-select mb-2"
               onChange={(e) => setBranch(e.target.value)}
               value={branch}
             >
@@ -162,7 +166,7 @@ const EditQuestions = () => {
           </div>
         </div>
 
-        <div className="row mb-3 d-flex justify-content-center align-item-center">
+        <div className="row mb-2 d-flex justify-content-center align-item-center">
           <div className="col-md-3">
             <select
               className="form-select"
@@ -270,7 +274,7 @@ const EditQuestions = () => {
                             }}
                           >
                             Cancel
-                          </button>
+                          </button> 
                         </div>
                       </div>
                     ) : (
@@ -299,6 +303,10 @@ const EditQuestions = () => {
               </div>
             </div>
           ))}
+        </div>
+        
+        <div className="row">
+        <QuestionGeneration subject={subject} assignment={assignment} />
         </div>
       </div>
     </section>

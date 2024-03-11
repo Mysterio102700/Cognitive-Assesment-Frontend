@@ -42,9 +42,9 @@
 
 /* Active cell styles */
 .active {
-  background-color: #007bff;
+  background-color: #d9a0b3ff;
   color: #fff;
-}
+} 
 
 /* Found word cell styles */
 .found-word-cell {

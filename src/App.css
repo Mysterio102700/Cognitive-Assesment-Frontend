@@ -1,3 +1,25 @@
-/* *{
-    overflow: hidden;
-} */
+section {
+    height: 100vh;
+}
+
+button {
+    background-color: #2B2925;
+}
+
+button:hover {
+    background-color: #2b2925ff;
+}
+
+button:disabled {
+    background-color: #d1cac2ff;
+}
+
+button:active {
+    background-color: #e8bf72ff;
+}
+
+@media screen and (max-width: 765px) {
+    section {
+        height: auto;
+    }
+}

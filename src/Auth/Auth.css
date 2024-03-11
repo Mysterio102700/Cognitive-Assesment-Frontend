@@ -1,28 +1,20 @@
-
-
 .container {
   z-index: 999;
 }
 
-/* .row{
-  padding: 5%;
-  z-index: 999;
-
-} */
-
-.container .blob{
+.container .blob {
   position: absolute;
   right: 0;
 }
 
-.container .star-blob{
+.container .star-blob {
   position: absolute;
   left: 0;
   bottom: 0;
   z-index: 1;
 }
 
-.login-img img{
+.login-img img {
   max-width: 100%;
 }
 
@@ -33,16 +25,17 @@
   justify-content: center;
 }
 
-.md-row{
-  display: flex ;
+.md-row {
+  display: flex;
   justify-content: space-between;
 }
 
 @media only screen and (max-width: 765px) {
-  .login-img{
+  .login-img {
     display: none;
   }
-  .md-row{
-    display: block ;
+
+  .md-row {
+    display: block;
   }
 }

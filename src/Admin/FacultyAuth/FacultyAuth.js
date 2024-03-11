@@ -51,7 +51,6 @@ const FacultyAuth = () => {
         navigate("/AdminDashboard");
         console.log(response);
         const adminname = response.data.user.adminname;
-        console.log(adminname);
         localStorage.setItem("adminname", adminname);
         localStorage.setItem("role", "Admin");
       } else {

@@ -3,6 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./WordSearch.css";
 import { getQuestionsData } from "../../Api/Questions";
 import { useNavigate } from "react-router-dom"; 
+import { postResults } from "../../Api/Results";
 
 
 const WordSearch = () => {
@@ -13,10 +14,12 @@ const WordSearch = () => {
   const [foundWords, setFoundWords] = useState([]);
   const [remainingWords, setRemainingWords] = useState([]);
   const [gameStarted, setGameStarted] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(5); // 10 minutes in seconds
+  const [timeLeft, setTimeLeft] = useState(100);
   const [score, setScore] = useState(0);
   const [quizComplete, setQuizComplete] = useState(false);
-  const navigate = useNavigate(); // Initialize useNavigate hook
+  const navigate = useNavigate(); 
+  const [scorePosted, setScorePosted] = useState(false);
+
 
 
   useEffect(() => {
@@ -150,12 +153,31 @@ const WordSearch = () => {
       setScore(score + 1); 
     }
   };
+
+  const postScore = async () => {
+    const subject = localStorage.getItem("subject");
+    const assignment = localStorage.getItem("assignment");
+    const branch = localStorage.getItem("branch");
+    const pinno = localStorage.getItem("pinno");
+    const data = { subject, assignment, branch, pinno, score };
+    try {
+      const response = await postResults(data);
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
+    if (quizComplete && !scorePosted) {
+      postScore();
+      setScorePosted(true);
+    }
+
     if (quizComplete) {
       const timeout = setTimeout(() => {
         navigate("/Dashboard");
       }, 10000);
-
       return () => clearTimeout(timeout);
     }
   }, [quizComplete]);
@@ -163,7 +185,7 @@ const WordSearch = () => {
 
   return (
     <>
-      <section style={{ backgroundColor: "#D0C9C2", height: "100vh", overflow: "hidden" }}>
+      <section style={{ backgroundColor: "#D0C9C2", height: "100vh" }}>
         <div className="container-fluid">
           <div className="timer" style={{ position: "absolute", top: "90px", right: "10px" }}>
             Time Left: {formatTime(timeLeft)}

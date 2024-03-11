@@ -6,7 +6,7 @@ import {
   deleteSubject,
 } from "../../Api/Subjects";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./EditSubject.css"; // Import the CSS file where the colors are defined
+import "./EditSubject.css";
 
 const EditSubject = () => {
   const [year, setYear] = useState("");
@@ -77,10 +77,16 @@ const EditSubject = () => {
   }, [year, semester, branch]);
 
   return (
-    <section className="edit-subject-section" style={{ height: "100vh" }}>
+    <section
+      className="edit-subject-section"
+      style={{ backgroundColor: "#D0C9C2", height: "100vh" }}
+    >
       <div className="container">
-        <div className="row justify-content-center align-items-center mb-3" style={{paddingTop:"10%"}}>
-          <div className="col-md-3" >
+        <div
+          className="row justify-content-center align-items-center mb-3"
+          style={{ paddingTop: "10%" }}
+        >
+          <div className="col-md-3">
             <select
               id="years"
               className="form-select"
@@ -162,6 +168,16 @@ const EditSubject = () => {
                         onClick={() => handleUpdateSubject(subject)}
                       >
                         Save
+                      </button>
+                      <button
+                        className="btn btn-outline-secondary"
+                        type="button"
+                        onClick={() => {
+                          setEditingSubject("");
+                          setUpdatedSubject("");
+                        }}
+                      >
+                        Cancel
                       </button>
                     </div>
                   ) : (

@@ -70,11 +70,11 @@ const Auth = () => {
         localStorage.setItem("branch", uBranch);
         localStorage.setItem("pinno", uPinNo);
       } else {
-        setauthResponse(response);
+        setauthResponse(response.toString());
       }
     } catch (error) {
       console.log(error);
-      setauthResponse(error);
+      setauthResponse(error.toString());
     }
   };
 
