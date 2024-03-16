@@ -13,7 +13,7 @@ export const login = async (user) => {
 };
 
 export const register = async (user) => {
-  const URL = "/adminRegister";
+  const URL = "/register";
 
   try {
     const response = await AxiosInstances.post(URL, user);

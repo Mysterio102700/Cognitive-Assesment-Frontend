@@ -1,20 +1,19 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { PieChart, Pie, Cell, Tooltip } from "recharts";
-import { subjectData } from "../Api/Subjects";
 import { areaChartResults } from "../Api/Results";
+import Table from "./Table";
 
-const AreaCards = () => {
+const AreaCards = ({ subjects }) => {
   const AreaCard = ({ colors, correctAnswers, totalQuestions, cardInfo }) => {
     const correctValue = (correctAnswers / 10) * 360;
     const incorrectValue = 360 - correctValue;
-    
 
     const data = [
       { name: "Incorrect", value: incorrectValue },
       { name: "Correct", value: correctValue },
     ];
-    
+
     const renderTooltipContent = (value) => {
       return `${value} answers`;
     };
@@ -40,10 +39,7 @@ const AreaCards = () => {
                   stroke="none"
                 >
                   {colors.map((color, index) => (
-                    <Cell
-                      key={`cell-${index}`}
-                      fill={color}
-                    />
+                    <Cell key={`cell-${index}`} fill={color} />
                   ))}
                 </Pie>
                 <Tooltip formatter={renderTooltipContent} />
@@ -63,25 +59,7 @@ const AreaCards = () => {
     cardInfo: PropTypes.object.isRequired,
   };
 
-  const [scoreData, setscoreData] = useState([]);
-
-  useEffect(() => {
-    const getSubjects = async () => {
-      const year = localStorage.getItem("year");
-      const sem = localStorage.getItem("semester");
-      const branch = localStorage.getItem("branch");
-      const sub = { year, sem, branch };
-
-      try {
-        const response = await subjectData(sub);
-        setscoreData(response.data.subjects);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    getSubjects();
-  }, []);
+  const [scoreData, setScoreData] = useState([]);
 
   useEffect(() => {
     const scoreDetails = async () => {
@@ -89,10 +67,10 @@ const AreaCards = () => {
       const pinno = localStorage.getItem("pinno");
 
       try {
-        if (scoreData.length > 0) { //
-          const data = { pinno, branch, subjects: scoreData };
+        if (subjects.length > 0) {
+          const data = { pinno, branch, subjects };
           const response = await areaChartResults(data);
-          setscoreData(response.data);
+          setScoreData(response.data);
         }
       } catch (error) {
         console.log(error);
@@ -100,26 +78,28 @@ const AreaCards = () => {
     };
 
     scoreDetails();
-  }, [scoreData]); // Watch for changes in scoreData
+  }, [subjects]);
 
   return (
-    <div className="card shadow">
-      <div className="card-body">
-        <div className="container">
-          <div className="row">
-            {scoreData.map((item) => (
-              <AreaCard
-                key={item.id}
-                colors={["#e4e8ef", "#475be8"]}
-                correctAnswers={item.marks}
-                totalQuestions={10}
-                cardInfo={{
-                  title: item.subject,
-                  text: `Assignment-${item.max_assignment}`, // Provide your text here
-                  value: `${item.marks}/10`,
-                }}
-              />
-            ))}
+    <div>
+      <div className="card shadow">
+        <div className="card-body">
+          <div className="container">
+            <div className="row">
+              {scoreData.map((item, index) => (
+                <AreaCard
+                  key={index}
+                  colors={["#e4e8ef", "#475be8"]}
+                  correctAnswers={item.marks}
+                  totalQuestions={10}
+                  cardInfo={{
+                    title: item.subject,
+                    text: `Assignment-${item.max_assignment}`,
+                    value: `${item.marks}/10`,
+                  }}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </div>

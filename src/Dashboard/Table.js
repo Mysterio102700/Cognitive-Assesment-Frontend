@@ -1,97 +1,89 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { getResults } from "../Api/Results";
 
-const TABLE_HEADS = [
-  "Assessment",
-  "Attempted",
-  "Date",
-  "Status",
-];
+const Table = ({ subjects }) => {
+  const [expandedRows, setExpandedRows] = useState([]);
+  const [scoreData, setScoreData] = useState([]);
+  const AssignmentNo = Array.from({ length: 5 }, (_, index) => index + 1);
 
-const TABLE_DATA = [
-  {
-    id: 100,
-    assessment: "Assessment 1",
-    attempted: true,
-    date: "Jun 29, 2022",
-    status: "Completed",
-    score: 85,
-  },
-  {
-    id: 101,
-    assessment: "Assessment 2",
-    attempted: false,
-    date: "Jun 30, 2022",
-    status: "Pending",
-    score: null,
-  },
-  {
-    id: 102,
-    assessment: "Assessment 3",
-    attempted: true,
-    date: "Jul 1, 2022",
-    status: "Completed",
-    score: 92,
-  },
-  {
-    id: 103,
-    assessment: "Assessment 3",
-    attempted: true,
-    date: "Jul 1, 2022",
-    status: "Completed",
-    score: 92,
-  },
-  {
-    id: 104,
-    assessment: "Assessment 4",
-    attempted: true,
-    date: "Jul 1, 2022",
-    status: "Completed",
-    score: 92,
-  },
-  {
-    id: 105,
-    assessment: "Assessment 5",
-    attempted: true,
-    date: "Jul 1, 2022",
-    status: "Completed",
-    score: 92,
-  }
-];
+  useEffect(() => {
+    const getScoreData = async () => {
+      const pinno = localStorage.getItem("pinno");
+      try {
+        const response = await getResults(pinno);
+        setScoreData(response.data);
+      } catch (error) {
+        console.error("Error fetching score data:", error);
+      }
+    };
 
-const Table = () => {
+    getScoreData();
+  }, []);
+
+  const isAssignmentAttempted = (subjectName, assignmentNumber) => {
+    const subject = scoreData.find((item) => item.subject === subjectName);
+    if (!subject) {
+      return false;
+    }
+
+    const assignmentAttempt = subject.assignments.find(
+      (assignment) => assignment.assignment === assignmentNumber
+    );
+    return !!assignmentAttempt;
+  };
+
+  const toggleRowExpansion = (subjectIndex) => {
+    setExpandedRows((prevExpandedRows) =>
+      prevExpandedRows.includes(subjectIndex)
+        ? prevExpandedRows.filter((id) => id !== subjectIndex)
+        : [...prevExpandedRows, subjectIndex]
+    );
+  };
+
   return (
-    <div className="content-area-table">
-      <div className="data-table-info">
-        <h4 className="data-table-title">Your Assessments</h4>
-      </div>
-      <div className="data-table-diagram">
-        <table className="table table-striped">
-          <thead>
+    <table className="table table-striped">
+      <thead>
+        <tr>
+          <th>Subject</th>
+          <th>Attempt</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {subjects.map((subject, subjectIndex) => (
+          <React.Fragment key={subjectIndex}>
             <tr>
-              {TABLE_HEADS.map((th, index) => (
-                <th key={index}>{th}</th>
-              ))}
+              <td>{subject}</td>
+              <td>
+                <button
+                  className="btn btn-sm btn-primary"
+                  onClick={() => toggleRowExpansion(subjectIndex)}
+                >
+                  {expandedRows.includes(subjectIndex) ? "-" : "+"}
+                </button>
+              </td>
             </tr>
-          </thead>
-          <tbody>
-            {TABLE_DATA.map((dataItem) => (
-              <tr key={dataItem.id}>
-                <td>{dataItem.assessment}</td>
-                <td>{dataItem.attempted ? "Yes" : "No"}</td>
-                <td>{dataItem.date}</td>
-                <td>
-                  <span
-                    className={`badge bg-${dataItem.status === "Completed" ? "success" : "warning"}`}
+            {expandedRows.includes(subjectIndex) && (
+              <React.Fragment>
+                {AssignmentNo.map((assignment) => (
+                  <tr
+                    key={`assignment-${subjectIndex}-${assignment}`}
+                    className={isAssignmentAttempted(subject, assignment) ? "table-success" : "table-danger"}
                   >
-                    {dataItem.status}
-                  </span>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </div>
+                    <td>Assignment-{assignment}</td>
+                    <td>
+                      {isAssignmentAttempted(subject, assignment)
+                        ? "Attempted"
+                        : "Not Attempted"}
+                    </td>
+                  </tr>
+                ))}
+              </React.Fragment>
+            )}
+          </React.Fragment>
+        ))}
+      </tbody>
+    </table>
   );
 };
 

@@ -12,6 +12,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/dist/js/bootstrap";
 import "./Sidebar.css";
 import Subjects from "../Subjects/Subjects";
+import Feedback from "../Feedback/Feedback";
 
 const Sidebar = () => {
   const CustomLink = ({ to, text, iconClass, isActive }) => (
@@ -24,7 +25,7 @@ const Sidebar = () => {
   );
 
   const [user, setUser] = useState("Guest");
-  const [isSidebarOpen, setSidebarOpen] = useState(true); // Define state for sidebar
+  const [isSidebarOpen, setSidebarOpen] = useState(true);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -32,7 +33,7 @@ const Sidebar = () => {
     const username = localStorage.getItem("username");
     const adminname = localStorage.getItem("adminname");
     setUser(username || adminname || "Guest");
-  }, [user,[]]); // No dependencies here, so it runs only once after initial render
+  }, [user, []]);
 
   const logoutHandler = () => {
     signOut();
@@ -56,6 +57,11 @@ const Sidebar = () => {
       to: "/Assessment",
       text: "Assessment",
       iconClass: "fa-dashboard",
+    },
+    {
+      to: "/Feedback",
+      text: "Feedback",
+      iconClass: "far fa-comments",
     },
   ];
 
@@ -114,6 +120,7 @@ const Sidebar = () => {
               <Routes>
                 <Route path="/Dashboard" element={<Dashboard />} />
                 <Route path="/Assessment" element={<Subjects />} />
+                <Route path="/Feedback" element={<Feedback/>}/>
               </Routes>
             </div>
           </div>
