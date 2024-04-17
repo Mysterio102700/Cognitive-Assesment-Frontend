@@ -42,7 +42,7 @@ const getMedal = (score) => {
 };
 
 const MedalsPieChart = () => {
-  const data = [...initialData]; // Create a copy of initialData to avoid modifying it
+  const data = [...initialData];
 
   const medalCounts = {
     "🥇 Gold": 0,
@@ -65,7 +65,7 @@ const MedalsPieChart = () => {
   const COLORS = ["#FFD700", "#C0C0C0", "#CD7F32"];
 
   return (
-    <div className="card shadow">
+    <div className="card shadow-sm h-100">
       <div className="card-body">
         <h5 className="card-title">Your Medals</h5>
         <ResponsiveContainer width="100%" height={400}>

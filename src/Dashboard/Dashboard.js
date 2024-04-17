@@ -3,9 +3,9 @@ import AreaCards from "./AreaCards";
 import MedalsPieChart from "./MedalsPieChart";
 import MyPieChart from "./MyPieChart";
 import Graph from "./Graph";
-import Table from "./Table";
 import AreaProgressChart from "./AreaProgressChart";
 import { subjectData } from "../Api/Subjects";
+import Table from "./Table/Components/Table";
 
 const Dashboard = () => {
   const username = localStorage.getItem("username");
@@ -27,39 +27,40 @@ const Dashboard = () => {
     };
 
     getSubjects();
-  },[]); 
+  }, []);
+
   return (
     <>
       <h1>Welcome back, {username}!</h1>
       <div className="container-fluid">
-        <div className="row mt-4">
+        <div className="row row-cols-1 row-cols-md-2 mt-4">
           <div className="col-md-8">
-            <div className="card shadow-sm">
-              <div className="">
+            <div className="card shadow-sm h-100">
+              <div className="card-body">
                 <AreaCards subjects={subjects} />
               </div>
             </div>
           </div>
 
           <div className="col-md-4">
-            <div className="card shadow-sm">
-              <div className="card-body">
+            <div className="card shadow-sm h-100">
+              <div className="card-body mb-3">
                 <MedalsPieChart />
               </div>
             </div>
           </div>
         </div>
 
-        <div className="row mt-1">
+        <div className="row row-cols-1 row-cols-md-2 mt-1">
           <div className="col-md-5">
-            <div className="card shadow-sm">
+            <div className="card shadow-sm h-100">
               <div className="card-body">
                 <MyPieChart />
               </div>
             </div>
           </div>
           <div className="col-md-7">
-            <div className="card shadow-sm">
+            <div className="card shadow-sm h-100">
               <div className="card-body">
                 <Graph />
               </div>
@@ -67,15 +68,15 @@ const Dashboard = () => {
           </div>
         </div>
 
-        <div className="row mt-4">
-          <div className="col-md-6">
-            <div className="card shadow-sm">
+        <div className="row row-cols-1 row-cols-md-2 mt-4">
+          <div className="col">
+            <div className="card shadow-sm h-100">
               <div className="card-body">
-                <AreaProgressChart />
+                <AreaProgressChart subjects={subjects} />
               </div>
             </div>
           </div>
-          <div className="col-md-6">
+          <div className="col">
             <div className="card shadow-sm">
               <div className="card-body">
                 <Table subjects={subjects} />

@@ -1,31 +1,31 @@
 import { AxiosInstances } from "../../Utils/AxiosInstances";
 
 export const getResults = async (data) => {
-    const URL='/getResults'
-    try {
-        const response = await AxiosInstances.post(URL, data);
-        return response;
-    } catch (error) {
-        console.log(error);
-    }
+  const URL = "/getResults";
+  try {
+    const response = await AxiosInstances.post(URL, data);
+    console.log(response);
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
 };
 
-export const postResults = async (data) =>{
-    const URL="/postResult"
-    try {
-        const response = await AxiosInstances.post(URL,data)
-    } catch (error) {
-        console.log(error)
-    }
-}
+export const postResults = async (data) => {
+  const URL = "/postResult";
+  try {
+    const response = await AxiosInstances.post(URL, data);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
-
-export const areaChartResults = async (data) =>{
-    const URL="/areaChart"
-    try {
-        const response = await AxiosInstances.post(URL,data)
-        return response
-    } catch (error) {
-        console.log(error)
-    }
-}
+export const areaChartResults = async (data) => {
+  const URL = "/areaChart";
+  try {
+    const response = await AxiosInstances.post(URL, data);
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};

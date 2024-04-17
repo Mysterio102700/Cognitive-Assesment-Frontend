@@ -1,0 +1,20 @@
+/* Table.css */
+
+.table-container {
+    width: 100%; /* Ensures the table container fills the entire width of its parent */
+  }
+  
+  .table-container table {
+    width: 100%; /* Makes the table fill the entire width of its container */
+  }
+  
+  .table-container .table-responsive {
+    width: 100%; /* Ensure horizontal scrolling on smaller screens */
+  }
+  
+  .table-container .table-fill-width {
+    width: 100%; /* Make the table fill the entire width */
+  }
+  
+  /* Additional styles as needed */
+  

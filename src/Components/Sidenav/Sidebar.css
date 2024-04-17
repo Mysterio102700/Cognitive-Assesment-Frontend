@@ -129,70 +129,93 @@
    color: red;
 }
 
+
+.sidebar-nav .nav-link.active {
+   background-color: #D9A0B3;
+   color: #fff;
+}
+
+.sidebar-nav .nav-link.active .active-text {
+   color: #fff;
+}
+
 @media (max-width: 767px) {
    #wrapper.toggled #sidebar-wrapper {
-       width: 100%;
+      width: 100%;
    }
+
    #wrapper.toggled-2 #sidebar-wrapper {
-       width: 0;
+      width: 0;
    }
+
    #wrapper.toggled-2 #sidebar-wrapper:hover {
-       width: 250px;
+      width: 250px;
    }
+
    #wrapper.toggled #page-content-wrapper {
-       padding-left: 0;
+      padding-left: 0;
    }
+
    #wrapper.toggled-2 #page-content-wrapper {
-       margin-left: 0;
+      margin-left: 0;
    }
 
 
-   
+
 }
 
 @media (min-width: 768px) {
    #wrapper {
-       padding-left: 250px;
+      padding-left: 250px;
    }
+
    .fixed-brand {
-       width: 250px;
+      width: 250px;
    }
+
    #wrapper.toggled {
-       padding-left: 0;
+      padding-left: 0;
    }
+
    #sidebar-wrapper {
-       width: 250px;
+      width: 250px;
    }
+
    #wrapper.toggled #sidebar-wrapper {
-       width: 250px;
+      width: 250px;
    }
+
    #wrapper.toggled-2 #sidebar-wrapper {
-       width: 50px;
+      width: 50px;
    }
+
    #wrapper.toggled-2 #sidebar-wrapper:hover {
-       width: 250px;
+      width: 250px;
    }
+
    #page-content-wrapper {
-       height: calc(100vh - 44px);
-       padding: 20px;
-       position: relative;
-       -webkit-transition: all 0.5s ease;
-       -moz-transition: all 0.5s ease;
-       -o-transition: all 0.5s ease;
-       transition: all 0.5s ease;
+      height: calc(100vh - 44px);
+      padding: 20px;
+      position: relative;
+      -webkit-transition: all 0.5s ease;
+      -moz-transition: all 0.5s ease;
+      -o-transition: all 0.5s ease;
+      transition: all 0.5s ease;
    }
+
    #wrapper.toggled #page-content-wrapper {
-       position: relative;
-       margin-right: 0;
+      position: relative;
+      margin-right: 0;
    }
+
    #wrapper.toggled-2 #page-content-wrapper {
-       position: relative;
-       margin-right: 0;
-       margin-left: -200px;
-       -webkit-transition: all 0.5s ease;
-       -moz-transition: all 0.5s ease;
-       -o-transition: all 0.5s ease;
-       transition: all 0.5s ease;
-       width: auto;
+      position: relative;
+      margin-right: 0;
+      margin-left: -200px;
+      -webkit-transition: all 0.5s ease;
+      -moz-transition: all 0.5s ease;
+      -o-transition: all 0.5s ease;
+      transition: all 0.5s ease;
+      width: auto;
    }
 }

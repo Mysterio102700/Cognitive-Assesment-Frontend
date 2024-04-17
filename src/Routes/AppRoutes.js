@@ -16,6 +16,7 @@ import Dashboard from "../Admin/AdminDashboard/Dashboard";
 import EditSubject from "../Admin/EditSubject/EditSubject";
 import EditQuestions from "../Admin/EditQuestions/EditQuestions";
 import Result from "../Admin/Results/Result";
+import Feedbacks from "../Admin/Feedbacks/Feedbacks";
 
 const AppRoutes = () => {
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
@@ -34,15 +35,15 @@ const AppRoutes = () => {
       <Routes>
         <Route path="/" element={isUserLoggedIn ? <Sidebar /> : <Auth />} />
         <Route path="/Login" element={<Auth />} />
-        <Route path="/Admin" element={<FacultyAuth/>}/>
+        <Route path="/Admin" element={<FacultyAuth />} />
         <Route path="/quiz" element={<Quiz />} />
-        <Route path="/wordsearch" element={<WordSearch/>}/>
-        <Route path="/MissingWords" element={<MissingWords/>}/>
-        <Route path="/AdminDashboard" element={<Dashboard/>}/>
-        <Route path="/EditSubject" element={<EditSubject/>}/>
-        <Route path="/EditQuestions" element={<EditQuestions/>}/>
-        <Route path="/Results" element={<Result/>}/>
-
+        <Route path="/wordsearch" element={<WordSearch />} />
+        <Route path="/MissingWords" element={<MissingWords />} />
+        <Route path="/AdminDashboard" element={<Dashboard />} />
+        <Route path="/EditSubject" element={<EditSubject />} />
+        <Route path="/EditQuestions" element={<EditQuestions />} />
+        <Route path="/Results" element={<Result />} />
+        <Route path="/Feedbacks" element={<Feedbacks />} />
       </Routes>
       <route path="/Dashboard" element={<Sidebar />} />
       <Sidebar />

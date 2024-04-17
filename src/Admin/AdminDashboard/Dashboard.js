@@ -5,9 +5,9 @@ const Dashboard = () => {
   const renderComponent = () => {
     return (
       <>
-        <section style={{  backgroundColor: "#D0C9C2"}}>
+        <section style={{ backgroundColor: "#D0C9C2" }}>
           <div className="container pt-5">
-            <div className="row pt-5" >
+            <div className="row pt-5 d-flex justify-content-center">
               <div className="col-md-4">
                 <Link to="/EditSubject" style={{ textDecoration: "none" }}>
                   <div className="card mb-3">
@@ -31,6 +31,15 @@ const Dashboard = () => {
                   <div className="card mb-3">
                     <div className="card-body">
                       <h5 className="card-title text-center">Results</h5>
+                    </div>
+                  </div>
+                </Link>
+              </div>
+              <div className="col-md-4">
+                <Link to="/Feedbacks" style={{ textDecoration: "none" }}>
+                  <div className="card mb-3">
+                    <div className="card-body">
+                      <h5 className="card-title text-center">Feedback</h5>
                     </div>
                   </div>
                 </Link>

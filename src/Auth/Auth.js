@@ -56,6 +56,7 @@ const Auth = () => {
 
     try {
       const response = await login(user);
+      console.log(response);
       if (response.status === 200) {
         setsignupSuccess(true);
         navigate("/Dashboard");
@@ -204,24 +205,31 @@ const Auth = () => {
                       onChange={(e) => setusername(e.target.value)}
                     />
                   </div>
-                  <div className="mb-3">
+                  <div className="mb-3 position-relative">
                     <input
                       type={hidepass ? "text" : "password"}
-                      className="form-control border border-dark"
+                      className="form-control border border-dark pr-5"
                       placeholder="Password"
                       autoComplete="off"
                       value={password}
                       onChange={(e) => setpassword(e.target.value)}
                     />
                     <i
-                      className={
+                      className={`position-absolute ${
                         hidepass
                           ? "fa-regular fa-eye-slash"
                           : "fa-regular fa-eye"
-                      }
+                      }`}
+                      style={{
+                        right: "10px",
+                        top: "50%",
+                        transform: "translateY(-50%)",
+                        cursor: "pointer",
+                      }}
                       onClick={hidepassword}
                     ></i>
                   </div>
+
                   {showSignup && (
                     <>
                       <div className="md-row">
@@ -304,9 +312,11 @@ const Auth = () => {
                       {showSignup ? "Login" : "Signup"}
                     </button>
                   </div>
-                  <div className="auth-msg">
+                  <div className="auth-msg mb-3">
                     {showSignup ? "login as  !!" : "Register as  ?"}
-                    <Link to="/Admin">Faculty</Link>
+                    <button className="btn btn-link ">
+                      <Link to="/Admin">Faculty</Link>
+                    </button>
                   </div>
                   {
                     <div

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { PieChart, Pie, Cell, Tooltip } from "recharts";
 import { areaChartResults } from "../Api/Results";
-import Table from "./Table";
 
 const AreaCards = ({ subjects }) => {
   const AreaCard = ({ colors, correctAnswers, totalQuestions, cardInfo }) => {
@@ -20,7 +19,7 @@ const AreaCards = ({ subjects }) => {
 
     return (
       <div className="col-md-4 mb-3">
-        <div className="card">
+        <div className="card h-100">
           <div className="card-body">
             <h5 className="card-title">{cardInfo.title}</h5>
             <p className="card-text">{cardInfo.text}</p>
@@ -81,29 +80,31 @@ const AreaCards = ({ subjects }) => {
   }, [subjects]);
 
   return (
-    <div>
-      <div className="card shadow">
-        <div className="card-body">
-          <div className="container">
-            <div className="row">
-              {scoreData.map((item, index) => (
-                <AreaCard
-                  key={index}
-                  colors={["#e4e8ef", "#475be8"]}
-                  correctAnswers={item.marks}
-                  totalQuestions={10}
-                  cardInfo={{
-                    title: item.subject,
-                    text: `Assignment-${item.max_assignment}`,
-                    value: `${item.marks}/10`,
-                  }}
-                />
-              ))}
+    <>
+      <div>
+        <div className="card shadow">
+          <div className="card-body">
+            <div className="container">
+              <div className="row">
+                {scoreData.map((item, index) => (
+                  <AreaCard
+                    key={index}
+                    colors={["#e4e8ef", "#475be8"]}
+                    correctAnswers={item.marks}
+                    totalQuestions={10}
+                    cardInfo={{
+                      title: item.subject,
+                      text: `Assignment-${item.max_assignment}`,
+                      value: `${item.marks}/10`,
+                    }}
+                  />
+                ))}
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

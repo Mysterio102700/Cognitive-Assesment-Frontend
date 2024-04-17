@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import brain from "../../Assests/images/login.png";
 import { login, register } from "../../Api/AdminLogin";
+import { Link } from "react-router-dom";
 
 const FacultyAuth = () => {
   const [showSignup, setshowSignup] = useState(false);
@@ -133,7 +134,7 @@ const FacultyAuth = () => {
                 />
               </svg>
             </div>
-            <div className="row shadow-lg" style={{zIndex:999}}>
+            <div className="row shadow-lg" style={{ zIndex: 999 }}>
               <div className="col-8 login-img">
                 <img src={brain} alt="" />
               </div>
@@ -179,21 +180,27 @@ const FacultyAuth = () => {
                       onChange={(e) => setadminname(e.target.value)}
                     />
                   </div>
-                  <div className="mb-3">
+                  <div className="mb-3 position-relative">
                     <input
                       type={hidepass ? "text" : "password"}
-                      className="form-control border border-dark"
+                      className="form-control border border-dark pr-5"
                       placeholder="Password"
                       autoComplete="off"
                       value={password}
                       onChange={(e) => setpassword(e.target.value)}
                     />
                     <i
-                      className={
+                      className={`position-absolute ${
                         hidepass
                           ? "fa-regular fa-eye-slash"
                           : "fa-regular fa-eye"
-                      }
+                      }`}
+                      style={{
+                        right: "10px",
+                        top: "50%",
+                        transform: "translateY(-50%)",
+                        cursor: "pointer",
+                      }}
                       onClick={hidepassword}
                     ></i>
                   </div>
@@ -214,6 +221,12 @@ const FacultyAuth = () => {
                       : "Don't have an account ?"}
                     <button className="btn btn-link " onClick={togglehandler}>
                       {showSignup ? "Login" : "Signup"}
+                    </button>
+                  </div>
+                  <div className="auth-msg mb-3">
+                    {showSignup ? "login as  !!" : "Register as  ?"}
+                    <button className="btn btn-link ">
+                      <Link to="/Login">Student</Link>
                     </button>
                   </div>
                   {

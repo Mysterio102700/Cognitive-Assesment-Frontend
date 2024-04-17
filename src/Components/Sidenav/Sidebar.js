@@ -13,19 +13,26 @@ import "bootstrap/dist/js/bootstrap";
 import "./Sidebar.css";
 import Subjects from "../Subjects/Subjects";
 import Feedback from "../Feedback/Feedback";
+import "./Sidebar.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBell } from "@fortawesome/free-regular-svg-icons";
 
 const Sidebar = () => {
   const CustomLink = ({ to, text, iconClass, isActive }) => (
     <Link to={to} className={`nav-link ${isActive ? "active" : ""}`}>
-      <span className="fa-stack fa-lg pull-left">
+      <span
+        className={`${isActive ? "active-text" : ""} fa-stack fa-lg pull-left`}
+      >
         <i className={`fa ${iconClass} fa-stack-1x`}></i>
       </span>{" "}
-      {text}
+      <span>{text}</span>
     </Link>
   );
 
   const [user, setUser] = useState("Guest");
   const [isSidebarOpen, setSidebarOpen] = useState(true);
+  const [notificationCount, setNotificationCount] = useState(0);
+
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -33,7 +40,7 @@ const Sidebar = () => {
     const username = localStorage.getItem("username");
     const adminname = localStorage.getItem("adminname");
     setUser(username || adminname || "Guest");
-  }, [user, []]);
+  });
 
   const logoutHandler = () => {
     signOut();
@@ -65,36 +72,40 @@ const Sidebar = () => {
     },
   ];
 
+  const handleNotification = () => {
+    // Logic to handle notifications (increment count, show notification, etc.)
+    setNotificationCount(notificationCount + 1);
+  };
+
   return (
     <div id="wrapper" className={`${isSidebarOpen ? "" : "toggled"}`}>
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-        <button
-          type="button"
-          className="navbar-toggler"
-          onClick={toggleSidebar}
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
         <Link className="navbar-brand" to="/">
-          Bootstrap
+          Cognitive Assessment
         </Link>
-        {user === "Guest" ? (
-          <ul className="navbar-nav ml-auto">
+        <ul className="navbar-nav ml-auto">
+          <li className="nav-item">
+            <div className="notification-wrapper" onClick={handleNotification}>
+              <FontAwesomeIcon icon={faBell} className="bell-icon" />
+              {notificationCount > 0 && (
+                <span className="notification-count">{notificationCount}</span>
+              )}
+            </div>
+          </li>
+          {user === "Guest" ? (
             <li className="nav-item">
               <Link to="/Login" className="nav-link">
                 Login
               </Link>
             </li>
-          </ul>
-        ) : (
-          <ul className="navbar-nav ml-auto">
+          ) : (
             <li className="nav-item">
               <div className="logout-btn" onClick={logoutHandler}>
                 Logout
               </div>
             </li>
-          </ul>
-        )}
+          )}
+        </ul>
       </nav>
 
       <div id="sidebar-wrapper">
@@ -120,7 +131,7 @@ const Sidebar = () => {
               <Routes>
                 <Route path="/Dashboard" element={<Dashboard />} />
                 <Route path="/Assessment" element={<Subjects />} />
-                <Route path="/Feedback" element={<Feedback/>}/>
+                <Route path="/Feedback" element={<Feedback />} />
               </Routes>
             </div>
           </div>
