@@ -70,7 +70,7 @@ const Dashboard = () => {
 
         <div className="row row-cols-1 row-cols-md-2 mt-4">
           <div className="col">
-            <div className="card shadow-sm h-100">
+            <div className="card shadow-sm ">
               <div className="card-body">
                 <AreaProgressChart subjects={subjects} />
               </div>

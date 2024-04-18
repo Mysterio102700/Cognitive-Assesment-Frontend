@@ -9,7 +9,7 @@ const FacultyAuth = () => {
   const [showSignup, setshowSignup] = useState(false);
   const [adminname, setadminname] = useState("");
   const [password, setpassword] = useState("");
-  const [pinNo, setpinNo] = useState("");
+  const [pinno, setpinno] = useState("");
   const [email, setemail] = useState("");
   const [signupSuccess, setsignupSuccess] = useState(false);
   const [authResponse, setauthResponse] = useState("");
@@ -19,7 +19,7 @@ const FacultyAuth = () => {
     setadminname("");
     setpassword("");
     setemail("");
-    setpinNo("");
+    setpinno("");
     setshowSignup(false);
     setsignupSuccess(false);
     setauthResponse("");
@@ -64,9 +64,9 @@ const FacultyAuth = () => {
   };
 
   const registerHandler = async () => {
-    const user = { adminname, email, pinNo, password };
+    const user = { adminname, email, pinno, password };
 
-    if (!adminname || !email || !pinNo || !password) {
+    if (!adminname || !email || !pinno || !password) {
       setauthResponse("adminname, Email, Password are required !!");
       setsignupSuccess(false);
       return;
@@ -160,10 +160,10 @@ const FacultyAuth = () => {
                         <input
                           type="text"
                           className="form-control border border-dark"
-                          placeholder="PinNo"
+                          placeholder="pinno"
                           autoComplete="off"
-                          value={pinNo}
-                          onChange={(e) => setpinNo(e.target.value)}
+                          value={pinno}
+                          onChange={(e) => setpinno(e.target.value)}
                         />
                       </div>
                     </>

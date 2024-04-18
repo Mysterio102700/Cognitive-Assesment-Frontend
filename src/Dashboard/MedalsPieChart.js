@@ -1,48 +1,43 @@
-import React from "react";
-import { PieChart, Pie, ResponsiveContainer, Cell, Legend, Tooltip } from "recharts";
-
-const initialData = [
-  {
-    id: 1,
-    assessment: "Assessment 1",
-    score: 100,
-  },
-  {
-    id: 2,
-    assessment: "Assessment 2",
-    score: 80,
-  },
-  {
-    id: 3,
-    assessment: "Assessment 3",
-    score: 65,
-  },
-  {
-    id: 4,
-    assessment: "Assessment 4",
-    score: 71,
-  },
-  {
-    id: 5,
-    assessment: "Assessment 5",
-    score: 50,
-  },
-];
-
-const getMedal = (score) => {
-  if (score >= 80) {
-    return "🥇 Gold";
-  } else if (score >= 60) {
-    return "🥈 Silver";
-  } else if (score >= 40) {
-    return "🥉 Bronze";
-  } else {
-    return "No Medal";
-  }
-};
+import React, { useState, useEffect } from "react";
+import {
+  PieChart,
+  Pie,
+  ResponsiveContainer,
+  Cell,
+  Legend,
+  Tooltip,
+} from "recharts";
+import { getResults } from "../Api/Results";
 
 const MedalsPieChart = () => {
-  const data = [...initialData];
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const pinno = localStorage.getItem("pinno");
+    const fetchData = async () => {
+      try {
+        // Replace this with your actual API endpoint
+        const response = await getResults({ pinno });
+        setData(response.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const getMedal = (score) => {
+    if (score >= 10) {
+      return "🥇 Gold";
+    } else if (score >= 8) {
+      return "🥈 Silver";
+    } else if (score >= 6) {
+      return "🥉 Bronze";
+    } else {
+      return "No Medal";
+    }
+  };
 
   const medalCounts = {
     "🥇 Gold": 0,
@@ -51,7 +46,8 @@ const MedalsPieChart = () => {
   };
 
   data.forEach((item) => {
-    const medal = getMedal(item.score);
+    console.log(item.marks)
+    const medal = getMedal(parseInt(item.marks)); 
     if (medal !== "No Medal") {
       medalCounts[medal]++;
     }
@@ -82,7 +78,10 @@ const MedalsPieChart = () => {
               labelLine={false}
             >
               {pieData.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                <Cell
+                  key={`cell-${index}`}
+                  fill={COLORS[index % COLORS.length]}
+                />
               ))}
             </Pie>
             <Tooltip />
@@ -95,7 +94,7 @@ const MedalsPieChart = () => {
             />
           </PieChart>
         </ResponsiveContainer>
-        <p className="text-center">Total Medals: {data.length}</p>
+        <p className="text-center mt-2">Total Medals: {data.length}</p>
       </div>
     </div>
   );

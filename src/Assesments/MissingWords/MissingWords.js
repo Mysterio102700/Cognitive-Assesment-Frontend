@@ -13,7 +13,7 @@ const MissingWords = () => {
   const [quizComplete, setQuizComplete] = useState(false);
   const navigate = useNavigate();
   const [scorePosted, setScorePosted] = useState(false);
-
+  const [queCount, setQueCount] = useState(10);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -43,6 +43,12 @@ const MissingWords = () => {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    if (queCount === 0) {
+      setQuizComplete(true);
+    }
+  }, [queCount]);
 
   useEffect(() => {
     if (quizComplete && !scorePosted) {
@@ -107,19 +113,16 @@ const MissingWords = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
+    setQueCount(queCount - 1);
     const userWord = currentWordObj.userInputs.join("").toLowerCase();
     const correctWord = currentWordObj.answer.toLowerCase();
 
     if (userWord === correctWord) {
       setScore(score + 1);
-      setFeedback("Correct!");
-    } else {
-      setFeedback("Incorrect! Try again.");
     }
-
     setCurrentWordObj({});
     chooseWord();
+    console.log(queCount);
   };
 
   const renderWordWithMissingLetter = () => {
@@ -183,10 +186,29 @@ const MissingWords = () => {
             </button>
           </div>
         </form>
-        <p>Score: {score}</p>
-        <p>{feedback}</p>
-        <p>Time Left: {Math.floor(timeLeft / 60)}:{timeLeft % 60}</p>
+
+        <p>
+          Time Left: {Math.floor(timeLeft / 60)}:{timeLeft % 60}
+        </p>
       </div>
+      {(quizComplete || timeLeft <= 0) && (
+        <div
+          className="text-light p-4 d-flex justify-content-center align-items-center"
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+          }}
+        >
+          <div>
+            <h2>{quizComplete ? "Quiz Complete" : "Time's Up!"}</h2>
+            <p>Your Score is: {score}</p>
+          </div>
+        </div>
+      )}
     </section>
   );
 };
